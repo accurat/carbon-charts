@@ -53,6 +53,7 @@ export const simpleBarOptions = {
 	title: "Simple bar (discrete)",
 	axes: {
 		left: {
+			domain: [0, 100000],
 			primary: true
 		},
 		bottom: {

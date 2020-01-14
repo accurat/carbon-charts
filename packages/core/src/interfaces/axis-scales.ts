@@ -8,6 +8,7 @@ export interface AxisOptions {
 	 * type of the scale used on axis
 	 */
 	scaleType?: ScaleTypes;
+	domain?: [any, any];
 	primary?: boolean;
 	secondary?: boolean;
 	/**
