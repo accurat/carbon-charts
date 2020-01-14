@@ -34,12 +34,16 @@ export class Axis extends Component {
 		const axisOptions = Tools.getProperty(options, "axes", axisPosition);
 
 		const svg = this.getContainerSVG();
-		const { width, height } = DOMUtils.getSVGElementSize(this.parent, { useAttrs: true });
+		const { width, height } = DOMUtils.getSVGElementSize(this.parent, {
+			useAttrs: true
+		});
 
 		let startPosition, endPosition;
 		if (axisPosition === AxisPositions.BOTTOM || axisPosition === AxisPositions.TOP) {
 			startPosition = this.configs.axes[AxisPositions.LEFT] ? this.margins.left : 0;
-			endPosition = this.configs.axes[AxisPositions.RIGHT] ? width - this.margins.right : width;
+			endPosition = this.configs.axes[AxisPositions.RIGHT]
+				? width - this.margins.right
+				: width;
 		} else {
 			startPosition = height - this.margins.bottom;
 			endPosition = this.margins.top;
@@ -85,17 +89,25 @@ export class Axis extends Component {
 			.tickFormat(Tools.getProperty(axisOptions, "ticks", "formatter"));
 
 		if (scale.ticks) {
-			const numberOfTicks = Tools.getProperty(axisOptions, "ticks", "number") || Configuration.axis.ticks.number;
+			const numberOfTicks =
+				Tools.getProperty(axisOptions, "ticks", "number") ||
+				Configuration.axis.ticks.number;
 			axis.ticks(numberOfTicks);
 
 			if (this.scaleType === ScaleTypes.TIME) {
-				let tickValues = scale.ticks(numberOfTicks).concat(scale.domain())
-					.map(date => +date).sort();
+				let tickValues = scale
+					.ticks(numberOfTicks)
+					.concat(scale.domain())
+					.map(date => +date)
+					.sort();
 				tickValues = Tools.removeArrayDuplicates(tickValues);
 
 				// Remove labels on the edges
 				// If there are more than 2 labels to show
-				if (Tools.getProperty(options, "timeScale", "addSpaceOnEdges") && tickValues.length > 2) {
+				if (
+					Tools.getProperty(options, "timeScale", "addSpaceOnEdges") &&
+					tickValues.length > 2
+				) {
 					tickValues.splice(tickValues.length - 1, 1);
 					tickValues.splice(0, 1);
 				}
@@ -137,31 +149,45 @@ export class Axis extends Component {
 
 		// Position the axis title
 		if (axisOptions.title) {
-			const axisTitleRef = DOMUtils.appendOrSelect(container, `text.axis-title`)
-				.text(axisOptions.title);
+			const axisTitleRef = DOMUtils.appendOrSelect(container, `text.axis-title`).text(
+				axisOptions.title
+			);
 
 			switch (axisPosition) {
 				case AxisPositions.LEFT:
-					axisTitleRef.attr("transform", "rotate(-90)")
+					axisTitleRef
+						.attr("transform", "rotate(-90)")
 						.attr("y", 0)
 						.attr("x", -(scale.range()[0] / 2))
 						.attr("dy", "1em")
 						.style("text-anchor", "middle");
 					break;
 				case AxisPositions.BOTTOM:
-					axisTitleRef.attr("transform", `translate(${this.margins.left / 2 + scale.range()[1] / 2}, ${height})`)
+					axisTitleRef
+						.attr(
+							"transform",
+							`translate(${this.margins.left / 2 + scale.range()[1] / 2}, ${height})`
+						)
 						.style("text-anchor", "middle");
 					break;
 				case AxisPositions.RIGHT:
-					axisTitleRef.attr("transform", "rotate(90)")
+					axisTitleRef
+						.attr("transform", "rotate(90)")
 						.attr("y", -width)
 						.attr("x", scale.range()[0] / 2)
 						.attr("dy", "1em")
 						.style("text-anchor", "middle");
 					break;
 				case AxisPositions.TOP:
-					const { height: titleHeight } = DOMUtils.getSVGElementSize(axisTitleRef, { useBBox: true });
-					axisTitleRef.attr("transform", `translate(${this.margins.left / 2 + scale.range()[1] / 2}, ${titleHeight / 2})`)
+					const { height: titleHeight } = DOMUtils.getSVGElementSize(axisTitleRef, {
+						useBBox: true
+					});
+					axisTitleRef
+						.attr(
+							"transform",
+							`translate(${this.margins.left / 2 +
+								scale.range()[1] / 2}, ${titleHeight / 2})`
+						)
 						.style("text-anchor", "middle");
 					break;
 			}
@@ -171,7 +197,8 @@ export class Axis extends Component {
 		if (!animate || !axisRefExists) {
 			axisRef = axisRef.call(axis);
 		} else {
-			axisRef = axisRef.transition(this.services.transitions.getTransition("axis-update"))
+			axisRef = axisRef
+				.transition(this.services.transitions.getTransition("axis-update"))
 				.call(axis);
 		}
 
@@ -186,22 +213,30 @@ export class Axis extends Component {
 				const textNodes = invisibleAxisRef.selectAll("g.tick text").nodes();
 
 				// If any ticks are any larger than the scale step size
-				rotateTicks = textNodes.some(textNode => DOMUtils.getSVGElementSize(textNode, { useBBox: true }).width >= scale.step());
+				rotateTicks = textNodes.some(
+					textNode =>
+						DOMUtils.getSVGElementSize(textNode, { useBBox: true }).width >=
+						scale.step()
+				);
 			} else {
 				// When dealing with a continuous scale
 				// We need to calculate an estimated size of the ticks
-				const minTickSize = Tools.getProperty(axisOptions, "ticks", "rotateIfSmallerThan") || Configuration.axis.ticks.rotateIfSmallerThan;
+				const minTickSize =
+					Tools.getProperty(axisOptions, "ticks", "rotateIfSmallerThan") ||
+					Configuration.axis.ticks.rotateIfSmallerThan;
 				const estimatedTickSize = width / scale.ticks().length / 2;
 
 				rotateTicks = estimatedTickSize < minTickSize;
 			}
 
 			if (rotateTicks) {
-				container.selectAll("g.ticks g.tick text")
+				container
+					.selectAll("g.ticks g.tick text")
 					.attr("transform", `rotate(45)`)
 					.style("text-anchor", axisPosition === AxisPositions.TOP ? "end" : "start");
 			} else {
-				container.selectAll("g.ticks g.tick text")
+				container
+					.selectAll("g.ticks g.tick text")
 					.attr("transform", null)
 					.style("text-anchor", null);
 			}
@@ -211,14 +246,12 @@ export class Axis extends Component {
 	getInvisibleAxisRef() {
 		const { position: axisPosition } = this.configs;
 
-		return this.getContainerSVG()
-			.select(`g.axis.${axisPosition} g.ticks.invisible`);
+		return this.getContainerSVG().select(`g.axis.${axisPosition} g.ticks.invisible`);
 	}
 
 	getTitleRef() {
 		const { position: axisPosition } = this.configs;
 
-		return this.getContainerSVG()
-			.select(`g.axis.${axisPosition} text.axis-title`);
+		return this.getContainerSVG().select(`g.axis.${axisPosition} text.axis-title`);
 	}
 }

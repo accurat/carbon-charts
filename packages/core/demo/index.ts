@@ -32,10 +32,12 @@ const changeDemoData = (chartType: any, chartObj: any) => {
 		const currentVal = datum.value !== undefined ? datum.value : datum;
 		let result = Math.random() > 0.5 ? 0.95 * currentVal : 1.05 * currentVal;
 
-		if (Math.random() > 0.5
-			|| chartType.indexOf("stacked") !== -1
-			|| chartType.indexOf("pie") !== -1
-			|| chartType.indexOf("donut") !== -1) {
+		if (
+			Math.random() > 0.5 ||
+			chartType.indexOf("stacked") !== -1 ||
+			chartType.indexOf("pie") !== -1 ||
+			chartType.indexOf("donut") !== -1
+		) {
 			result = Math.floor(result);
 		} else {
 			result = Math.floor(result) * -1;
@@ -59,12 +61,14 @@ const changeDemoData = (chartType: any, chartObj: any) => {
 	const updateChartData = currentData => {
 		const result = Tools.clone(currentData);
 		result.datasets = result.datasets.map(dataset => {
-			dataset.label = `new dataset ${Math.random().toFixed(2)}`
+			dataset.label = `new dataset ${Math.random().toFixed(2)}`;
 			const datasetNewData = dataset.data.map(dataPoint => {
-				return randomizeValue(dataPoint)
+				return randomizeValue(dataPoint);
 			});
 
-			const newDataset = Object.assign({}, dataset, { data: datasetNewData });
+			const newDataset = Object.assign({}, dataset, {
+				data: datasetNewData
+			});
 
 			return newDataset;
 		});
@@ -109,7 +113,9 @@ const setDemoActionsEventListener = (chartType: any, chartObj: any) => {
 
 		const actionsElement = document.getElementById(`actions-${chartType}`);
 		if (actionsElement) {
-			const changeDataPromiseButtons = Array.prototype.slice.call(actionsElement.querySelectorAll(".change-data-promise"));
+			const changeDataPromiseButtons = Array.prototype.slice.call(
+				actionsElement.querySelectorAll(".change-data-promise")
+			);
 			changeDataPromiseButtons.forEach(element => {
 				element = <HTMLElement>element;
 				element.onclick = e => {
@@ -193,13 +199,10 @@ chartTypes.forEach(type => {
 		type.options.height = "500px";
 
 		// Initialize chart
-		charts[type.id] = new classToInitialize(
-			holder,
-			{
-				data: type.data,
-				options: type.options
-			}
-		);
+		charts[type.id] = new classToInitialize(holder, {
+			data: type.data,
+			options: type.options
+		});
 
 		setDemoActionsEventListener(type.id, charts[type.id]);
 	}

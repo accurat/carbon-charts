@@ -10,21 +10,11 @@ import {
 
 // Misc
 import { ChartModel } from "./model";
-import { Component,
-	Title,
-	Legend,
-	LayoutComponent,
-	Tooltip,
-	Spacer
-} from "./components";
+import { Component, Title, Legend, LayoutComponent, Tooltip, Spacer } from "./components";
 import { Tools } from "./tools";
 
 // Services
-import {
-	DOMUtils,
-	Events,
-	Transitions
-} from "./services/index";
+import { DOMUtils, Events, Transitions } from "./services/index";
 
 export class Chart {
 	components: Component[];
@@ -49,19 +39,17 @@ export class Chart {
 		});
 
 		// Call update() when model has been updated
-		this.services.events
-			.addEventListener("model-update", () => {
-				this.update(true);
-			});
+		this.services.events.addEventListener("model-update", () => {
+			this.update(true);
+		});
 
 		// Set model data & options
 		this.model.setData(chartConfigs.data);
 
 		// Set chart resize event listener
-		this.services.events
-			.addEventListener("chart-resize", () => {
-				this.update(false);
-			});
+		this.services.events.addEventListener("chart-resize", () => {
+			this.update(false);
+		});
 
 		this.components = this.getComponents();
 
@@ -73,8 +61,6 @@ export class Chart {
 
 		return null;
 	}
-
-
 
 	update(animate = true) {
 		if (!this.components) {
@@ -95,15 +81,12 @@ export class Chart {
 		// Since at the start of the transition
 		// Elements do not hold their final size or position
 		const pendingTransitions = this.services.transitions.getPendingTransitions();
-		const promises = Object.keys(pendingTransitions)
-			.map(transitionID => {
-				const transition = pendingTransitions[transitionID];
-				return transition.end()
-					.catch(e => e); // Skip rejects since we don't care about those;
-			});
+		const promises = Object.keys(pendingTransitions).map(transitionID => {
+			const transition = pendingTransitions[transitionID];
+			return transition.end().catch(e => e); // Skip rejects since we don't care about those;
+		});
 
-		Promise.all(promises)
-			.then(() => this.services.events.dispatchEvent("render-finished"));
+		Promise.all(promises).then(() => this.services.events.dispatchEvent("render-finished"));
 	}
 
 	destroy() {
@@ -116,13 +99,10 @@ export class Chart {
 		this.model.set({ destroyed: true }, true);
 	}
 
-
 	protected getChartComponents(graphFrameComponents: any[]) {
 		const titleComponent = {
 			id: "title",
-			components: [
-				new Title(this.model, this.services)
-			],
+			components: [new Title(this.model, this.services)],
 			growth: {
 				x: LayoutGrowth.PREFERRED,
 				y: LayoutGrowth.FIXED
@@ -131,9 +111,7 @@ export class Chart {
 
 		const legendComponent = {
 			id: "legend",
-			components: [
-				new Legend(this.model, this.services)
-			],
+			components: [new Legend(this.model, this.services)],
 			growth: {
 				x: LayoutGrowth.PREFERRED,
 				y: LayoutGrowth.FIXED
@@ -154,7 +132,7 @@ export class Chart {
 		// Decide the position of the legend in reference to the chart
 		let fullFrameComponentDirection = LayoutDirection.COLUMN;
 		if (isLegendEnabled) {
-				const legendPosition = Tools.getProperty(this.model.getOptions(), "legend", "position");
+			const legendPosition = Tools.getProperty(this.model.getOptions(), "legend", "position");
 			if (legendPosition === "left") {
 				fullFrameComponentDirection = LayoutDirection.ROW;
 
@@ -174,9 +152,7 @@ export class Chart {
 
 		const legendSpacerComponent = {
 			id: "spacer",
-			components: [
-				new Spacer(this.model, this.services)
-			],
+			components: [new Spacer(this.model, this.services)],
 			growth: {
 				x: LayoutGrowth.PREFERRED,
 				y: LayoutGrowth.FIXED
@@ -190,7 +166,7 @@ export class Chart {
 					this.model,
 					this.services,
 					[
-						...(isLegendEnabled ? [ legendComponent ] : [ ]),
+						...(isLegendEnabled ? [legendComponent] : []),
 						legendSpacerComponent,
 						graphFrameComponent
 					],
@@ -212,9 +188,7 @@ export class Chart {
 
 			const titleSpacerComponent = {
 				id: "spacer",
-				components: [
-					new Spacer(this.model, this.services)
-				],
+				components: [new Spacer(this.model, this.services)],
 				growth: {
 					x: LayoutGrowth.PREFERRED,
 					y: LayoutGrowth.FIXED
@@ -226,14 +200,9 @@ export class Chart {
 		topLevelLayoutComponents.push(fullFrameComponent);
 
 		return [
-			new LayoutComponent(
-				this.model,
-				this.services,
-				topLevelLayoutComponents,
-				{
-					direction: LayoutDirection.COLUMN
-				}
-			)
+			new LayoutComponent(this.model, this.services, topLevelLayoutComponents, {
+				direction: LayoutDirection.COLUMN
+			})
 		];
 	}
 }
