@@ -8,43 +8,19 @@ export const groupedBarData = {
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [
-				65000,
-				-29123,
-				-35213,
-				51213,
-				16932
-			]
+			data: [65000, -29123, -35213, 51213, 16932]
 		},
 		{
 			label: "Dataset 2",
-			data: [
-				32432,
-				-21312,
-				-56456,
-				-21312,
-				34234
-			]
+			data: [32432, -21312, -56456, -21312, 34234]
 		},
 		{
 			label: "Dataset 3",
-			data: [
-				-12312,
-				23232,
-				34232,
-				-12312,
-				-34234
-			]
+			data: [-12312, 23232, 34232, -12312, -34234]
 		},
 		{
 			label: "Dataset 4",
-			data: [
-				-32423,
-				21313,
-				64353,
-				24134,
-				32423
-			]
+			data: [-32423, 21313, 64353, 24134, 32423]
 		}
 	]
 };
@@ -53,11 +29,11 @@ export const groupedBarOptions = {
 	title: "Grouped bar (discrete)",
 	axes: {
 		left: {
-			primary: true,
+			primary: true
 		},
 		bottom: {
 			scaleType: "labels",
-			secondary: true,
+			secondary: true
 		}
 	}
 };
@@ -68,13 +44,7 @@ export const simpleBarData = {
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [
-				65000,
-				29123,
-				35213,
-				51213,
-				16932
-			]
+			data: [65000, 29123, 35213, 51213, 16932]
 		}
 	]
 };
@@ -87,11 +57,10 @@ export const simpleBarOptions = {
 		},
 		bottom: {
 			scaleType: "labels",
-			secondary: true,
+			secondary: true
 		}
 	}
 };
-
 
 export const simpleBarTimeSeriesData = {
 	labels: ["Qty", "More", "Sold", "Restocking", "Miscellaneous"],
@@ -146,43 +115,19 @@ export const stackedBarData = {
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [
-				65000,
-				29123,
-				35213,
-				51213,
-				16932
-			]
+			data: [65000, 29123, 35213, 51213, 16932]
 		},
 		{
 			label: "Dataset 2",
-			data: [
-				32432,
-				21312,
-				56456,
-				21312,
-				34234
-			]
+			data: [32432, 21312, 56456, 21312, 34234]
 		},
 		{
 			label: "Dataset 3",
-			data: [
-				12312,
-				23232,
-				34232,
-				12312,
-				34234
-			]
+			data: [12312, 23232, 34232, 12312, 34234]
 		},
 		{
 			label: "Dataset 4",
-			data: [
-				32423,
-				21313,
-				64353,
-				24134,
-				32423
-			]
+			data: [32423, 21313, 64353, 24134, 32423]
 		}
 	]
 };
@@ -196,11 +141,10 @@ export const stackedBarOptions = {
 		},
 		bottom: {
 			scaleType: "labels",
-			secondary: true,
+			secondary: true
 		}
 	}
 };
-
 
 export const stackedBarTimeSeriesData = {
 	labels: ["Qty", "More", "Sold", "Restocking", "Misc"],

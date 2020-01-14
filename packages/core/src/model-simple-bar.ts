@@ -43,7 +43,9 @@ export class SimpleBarChartModel extends ChartModel {
 		});
 
 		// Remove labels that are disabled
-		displayData.labels = displayData.labels.filter(label => dataLabels[label] === ACTIVE);
+		displayData.labels = displayData.labels.filter(
+			label => dataLabels[label] === ACTIVE
+		);
 
 		return displayData;
 	}
@@ -51,17 +53,20 @@ export class SimpleBarChartModel extends ChartModel {
 	/*
 	 * Fill scales
 	 *
-	*/
+	 */
 	setColorScale() {
 		const dataset = this.getDisplayData().datasets[0];
 		if (dataset.fillColors) {
-			this.colorScale = scaleOrdinal().range(dataset.fillColors).domain(this.allDataLabels);
+			this.colorScale = scaleOrdinal()
+				.range(dataset.fillColors)
+				.domain(this.allDataLabels);
 		} else {
 			const colors = colorPalettes.DEFAULT;
-			this.colorScale = scaleOrdinal().range(colors).domain(this.allDataLabels);
+			this.colorScale = scaleOrdinal()
+				.range(colors)
+				.domain(this.allDataLabels);
 		}
 	}
-
 
 	getFillColor(label: string) {
 		const options = this.getOptions();
