@@ -93,6 +93,12 @@ export class Axis extends Component {
 
 		// Get the extent of the domain
 		let domain;
+
+		// If domain is specified return that domain
+		if (axisOptions.domain) {
+			return axisOptions.domain;
+		}
+
 		// If the scale is stacked
 		if (axisOptions.stacked) {
 			domain = extent(
