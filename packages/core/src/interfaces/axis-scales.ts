@@ -22,6 +22,7 @@ export interface AxisOptions {
 	 * Range usually follows a linear scale
 	 */
 	useAsRange?: boolean;
+	domain?: [any, any];
 	primary?: boolean;
 	secondary?: boolean;
 	/**

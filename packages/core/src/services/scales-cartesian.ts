@@ -4,12 +4,7 @@ import { AxisPositions, CartesianOrientations, ScaleTypes } from "../interfaces"
 import { Tools } from "../tools";
 
 // D3 Imports
-import {
-	scaleBand,
-	scaleLinear,
-	scaleTime,
-	scaleLog
-} from "d3-scale";
+import { scaleBand, scaleLinear, scaleTime, scaleLog } from "d3-scale";
 import { min, extent } from "d3-array";
 import {
 	differenceInYears,
@@ -59,7 +54,9 @@ export class CartesianScales extends Service {
 
 	update(animate = true) {
 		this.determineOrientation();
-		const axisPositions = Object.keys(AxisPositions).map(axisPositionKey => AxisPositions[axisPositionKey]);
+		const axisPositions = Object.keys(AxisPositions).map(
+			axisPositionKey => AxisPositions[axisPositionKey]
+		);
 		axisPositions.forEach(axisPosition => {
 			this.scales[axisPosition] = this.createScale(axisPosition);
 		});
@@ -70,27 +67,27 @@ export class CartesianScales extends Service {
 
 		// Manually specifying positions here
 		// In order to enforce a priority
-		[
-			AxisPositions.LEFT,
-			AxisPositions.BOTTOM,
-			AxisPositions.RIGHT,
-			AxisPositions.TOP
-		].forEach(axisPosition => {
-			const axisOptions = Tools.getProperty(options, "axes", axisPosition);
+		[AxisPositions.LEFT, AxisPositions.BOTTOM, AxisPositions.RIGHT, AxisPositions.TOP].forEach(
+			axisPosition => {
+				const axisOptions = Tools.getProperty(options, "axes", axisPosition);
 
-			if (axisOptions) {
-				const scaleType = axisOptions.scaleType || ScaleTypes.LINEAR;
-				this.scaleTypes[axisPosition] = scaleType;
+				if (axisOptions) {
+					const scaleType = axisOptions.scaleType || ScaleTypes.LINEAR;
+					this.scaleTypes[axisPosition] = scaleType;
 
-				if (scaleType === ScaleTypes.LINEAR) {
-					this.rangeAxisPosition = axisPosition;
-				} else {
-					this.domainAxisPosition = axisPosition;
+					if (scaleType === ScaleTypes.LINEAR) {
+						this.rangeAxisPosition = axisPosition;
+					} else {
+						this.domainAxisPosition = axisPosition;
+					}
 				}
 			}
-		});
+		);
 
-		if (this.rangeAxisPosition === AxisPositions.LEFT && this.domainAxisPosition === AxisPositions.BOTTOM) {
+		if (
+			this.rangeAxisPosition === AxisPositions.LEFT &&
+			this.domainAxisPosition === AxisPositions.BOTTOM
+		) {
 			this.orientation = CartesianOrientations.VERTICAL;
 		} else {
 			this.orientation = CartesianOrientations.HORIZONTAL;
@@ -121,16 +118,18 @@ export class CartesianScales extends Service {
 	getMainXAxisPosition() {
 		const possibleXAxisPositions = [AxisPositions.BOTTOM, AxisPositions.TOP];
 
-		return [this.domainAxisPosition, this.rangeAxisPosition]
-			.find(position => possibleXAxisPositions.indexOf(position) > -1);
+		return [this.domainAxisPosition, this.rangeAxisPosition].find(
+			position => possibleXAxisPositions.indexOf(position) > -1
+		);
 	}
 
 	// Find the main y-axis out of the 2 y-axis on the chart (when 2D axis is used)
 	getMainYAxisPosition() {
 		const possibleYAxisPositions = [AxisPositions.LEFT, AxisPositions.RIGHT];
 
-		return [this.domainAxisPosition, this.rangeAxisPosition]
-			.find(position => possibleYAxisPositions.indexOf(position) > -1);
+		return [this.domainAxisPosition, this.rangeAxisPosition].find(
+			position => possibleYAxisPositions.indexOf(position) > -1
+		);
 	}
 
 	getMainXScale() {
@@ -185,17 +184,17 @@ export class CartesianScales extends Service {
 				const index = displayData.labels.indexOf(domainValue);
 
 				displayData.datasets.forEach(dataset => {
-					activePoints.push(
-						{
-							datasetLabel: dataset.label,
-							value: dataset.data[index],
-						}
-					);
+					activePoints.push({
+						datasetLabel: dataset.label,
+						value: dataset.data[index]
+					});
 				});
 				break;
 			case ScaleTypes.TIME:
 				// time series we filter using the date
-				const domainKey = Object.keys(displayData.datasets[0].data[0]).filter(key =>  key !== "value" )[0];
+				const domainKey = Object.keys(displayData.datasets[0].data[0]).filter(
+					key => key !== "value"
+				)[0];
 
 				displayData.datasets.forEach(dataset => {
 					const sharedLabel = dataset.label;
@@ -210,9 +209,7 @@ export class CartesianScales extends Service {
 					// assign the shared label on the data items and add them to the array
 					dataItems.forEach(item => {
 						activePoints.push(
-							Object.assign({datasetLabel: sharedLabel,
-								value: item.value,
-							}, item)
+							Object.assign({ datasetLabel: sharedLabel, value: item.value }, item)
 						);
 					});
 				});
@@ -238,18 +235,27 @@ export class CartesianScales extends Service {
 
 		// Get the extent of the domain
 		let domain;
+
+		// If domain is specified return that domain
+		if (axisOptions.domain) {
+			return axisOptions.domain;
+		}
+
 		// If the scale is stacked
 		if (axisOptions.stacked) {
 			domain = extent(
-				labels.reduce((m, label: any, i) => {
-					const correspondingValues = datasets.map(dataset => {
-						return !isNaN(dataset.data[i]) ? dataset.data[i] : dataset.data[i].value;
-					});
-					const totalValue = correspondingValues.reduce((a, b) => a + b, 0);
+				labels
+					.reduce((m, label: any, i) => {
+						const correspondingValues = datasets.map(dataset => {
+							return !isNaN(dataset.data[i])
+								? dataset.data[i]
+								: dataset.data[i].value;
+						});
+						const totalValue = correspondingValues.reduce((a, b) => a + b, 0);
 
-					// Save both the total value and the minimum
-					return m.concat(totalValue, min(correspondingValues));
-				}, [])
+						// Save both the total value and the minimum
+						return m.concat(totalValue, min(correspondingValues));
+					}, [])
 					// Currently stack layouts in the library
 					// Only support positive values
 					.concat(0)
@@ -282,32 +288,44 @@ export class CartesianScales extends Service {
 				const endDate = new Date(domain[1]);
 
 				if (differenceInYears(endDate, startDate) > 1) {
-					return [subYears(startDate, spaceToAddToEdges), addYears(endDate, spaceToAddToEdges)];
+					return [
+						subYears(startDate, spaceToAddToEdges),
+						addYears(endDate, spaceToAddToEdges)
+					];
 				}
 
 				if (differenceInMonths(endDate, startDate) > 1) {
-					return [subMonths(startDate, spaceToAddToEdges), addMonths(endDate, spaceToAddToEdges)];
+					return [
+						subMonths(startDate, spaceToAddToEdges),
+						addMonths(endDate, spaceToAddToEdges)
+					];
 				}
 
 				if (differenceInDays(endDate, startDate) > 1) {
-					return [subDays(startDate, spaceToAddToEdges), addDays(endDate, spaceToAddToEdges)];
+					return [
+						subDays(startDate, spaceToAddToEdges),
+						addDays(endDate, spaceToAddToEdges)
+					];
 				}
 
 				if (differenceInHours(endDate, startDate) > 1) {
-					return [subHours(startDate, spaceToAddToEdges), addHours(endDate, spaceToAddToEdges)];
+					return [
+						subHours(startDate, spaceToAddToEdges),
+						addHours(endDate, spaceToAddToEdges)
+					];
 				}
 
 				if (differenceInMinutes(endDate, startDate) > 1) {
-					return [subMinutes(startDate, spaceToAddToEdges), addMinutes(endDate, spaceToAddToEdges)];
+					return [
+						subMinutes(startDate, spaceToAddToEdges),
+						addMinutes(endDate, spaceToAddToEdges)
+					];
 				}
 
 				return [startDate, endDate];
 			}
 
-			return [
-				new Date(domain[0]),
-				new Date(domain[1])
-			];
+			return [new Date(domain[0]), new Date(domain[1])];
 		}
 
 		// TODO - Work with design to improve logic
