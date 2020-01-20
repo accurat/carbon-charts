@@ -95,14 +95,14 @@ export class SimpleBar extends Bar {
 			.selectAll("rect.bar")
 			.transition(this.services.transitions.getTransition("legend-hover-simple-bar"))
 			.attr("opacity", d => (d.label !== hoveredElement.datum()["key"] ? 0.3 : 1));
-	};
+	}
 
 	handleLegendMouseOut = (event: CustomEvent) => {
 		this.parent
 			.selectAll("rect.bar")
 			.transition(this.services.transitions.getTransition("legend-mouseout-simple-bar"))
 			.attr("opacity", 1);
-	};
+	}
 
 	// TODO - This method could be re-used in more graphs
 	addLabelsToDataPoints(d, index) {

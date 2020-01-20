@@ -38,7 +38,7 @@ export class Heatmap extends Component {
 			useAttrs: true
 		});
 		return width / xLabels.length;
-	};
+	}
 
 	getBarHeight = () => {
 		const yLabels = uniq(this.data.map(d => d.labelY));
@@ -47,7 +47,7 @@ export class Heatmap extends Component {
 			useAttrs: true
 		});
 		return height / yLabels.length;
-	};
+	}
 
 	getXScale = () => {
 		const xLabels = uniq(this.data.map(d => d.labelX));
@@ -55,7 +55,7 @@ export class Heatmap extends Component {
 		return scaleOrdinal()
 			.domain(xLabels)
 			.range(xLabels.map((d, i) => i * this.getBarWidth()));
-	};
+	}
 
 	getYScale = () => {
 		const yLabels = uniq(this.data.map(d => d.labelY));
@@ -63,13 +63,13 @@ export class Heatmap extends Component {
 		return scaleOrdinal()
 			.domain(yLabels)
 			.range(yLabels.map((d, i) => i * this.getBarHeight()));
-	};
+	}
 
 	getValueScale = () => {
 		return scaleLinear()
 			.domain(extent(this.values))
 			.range([0, 1]);
-	};
+	}
 
 	init() {
 		const eventsFragment = this.services.events;
@@ -154,14 +154,14 @@ export class Heatmap extends Component {
 			.selectAll("rect.rect")
 			.transition(this.services.transitions.getTransition("legend-hover-heatmap"))
 			.attr("opacity", d => (d.label !== hoveredElement.datum()["key"] ? 0.3 : 1));
-	};
+	}
 
 	handleLegendMouseOut = (event: CustomEvent) => {
 		this.parent
 			.selectAll("rect.rect")
 			.transition(this.services.transitions.getTransition("legend-mouseout-heatmap"))
 			.attr("opacity", 1);
-	};
+	}
 
 	// TODO - This method could be re-used in more graphs
 	addLabelsToDataPoints(d, index) {
