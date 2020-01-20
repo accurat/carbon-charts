@@ -7,14 +7,7 @@ import {
 	ChartConfig,
 	AxisChartOptions
 } from "./interfaces/index";
-import {
-	LayoutComponent,
-	Legend,
-	Title,
-	Tooltip,
-	TooltipBar,
-	Spacer
-} from "./components/index";
+import { LayoutComponent, Legend, Title, Tooltip, TooltipBar, Spacer } from "./components/index";
 import { Tools } from "./tools";
 
 import { Axes, Curves } from "./services/index";
@@ -32,9 +25,7 @@ export class AxisChart extends Chart {
 	protected getAxisChartComponents(graphFrameComponents: any[]) {
 		const titleComponent = {
 			id: "title",
-			components: [
-				new Title(this.model, this.services)
-			],
+			components: [new Title(this.model, this.services)],
 			growth: {
 				x: LayoutGrowth.PREFERRED,
 				y: LayoutGrowth.FIXED
@@ -43,9 +34,7 @@ export class AxisChart extends Chart {
 
 		const legendComponent = {
 			id: "legend",
-			components: [
-				new Legend(this.model, this.services)
-			],
+			components: [new Legend(this.model, this.services)],
 			growth: {
 				x: LayoutGrowth.PREFERRED,
 				y: LayoutGrowth.FIXED
@@ -82,9 +71,7 @@ export class AxisChart extends Chart {
 
 		const legendSpacerComponent = {
 			id: "spacer",
-			components: [
-				new Spacer(this.model, this.services)
-			],
+			components: [new Spacer(this.model, this.services)],
 			growth: {
 				x: LayoutGrowth.PREFERRED,
 				y: LayoutGrowth.FIXED
@@ -97,11 +84,9 @@ export class AxisChart extends Chart {
 				new LayoutComponent(
 					this.model,
 					this.services,
-					[
-						legendComponent,
-						legendSpacerComponent,
-						graphFrameComponent
-					],
+					[legendSpacerComponent, graphFrameComponent].concat(
+						this.model.getOptions().legend.hide ? [] : legendComponent
+					),
 					{
 						direction: fullFrameComponentDirection
 					}
@@ -120,9 +105,7 @@ export class AxisChart extends Chart {
 
 			const titleSpacerComponent = {
 				id: "spacer",
-				components: [
-					new Spacer(this.model, this.services)
-				],
+				components: [new Spacer(this.model, this.services)],
 				growth: {
 					x: LayoutGrowth.PREFERRED,
 					y: LayoutGrowth.FIXED
@@ -134,14 +117,9 @@ export class AxisChart extends Chart {
 		topLevelLayoutComponents.push(fullFrameComponent);
 
 		return [
-			new LayoutComponent(
-				this.model,
-				this.services,
-				topLevelLayoutComponents,
-				{
-					direction: LayoutDirection.COLUMN
-				}
-			)
+			new LayoutComponent(this.model, this.services, topLevelLayoutComponents, {
+				direction: LayoutDirection.COLUMN
+			})
 		];
 	}
 }

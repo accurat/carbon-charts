@@ -100,9 +100,11 @@ export interface LineChartOptions extends ScatterChartOptions {
 	/**
 	 * options for the curve of the line
 	 */
-	curve?: string | {
-		name: string;
-	};
+	curve?:
+		| string
+		| {
+				name: string;
+			};
 }
 
 /**
@@ -121,18 +123,16 @@ export interface PieChartOptions extends BaseChartOptions {
 		yOffsetCallout?: number;
 		callout?: {
 			minSliceDegree?: number;
-			offsetX?: number,
+			offsetX?: number;
 			offsetY?: number;
 			horizontalLineLength?: number;
 			textMargin?: number;
-		},
+		};
 		labels?: {
 			formatter?: Function;
-		}
+		};
 	};
 }
-
-
 
 /**
  * options specific to donut charts

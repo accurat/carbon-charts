@@ -18,7 +18,7 @@ import {
 	LegendOptions,
 	ChartTheme,
 	LegendPositions,
-	StackedBarOptions,
+	StackedBarOptions
 } from "./interfaces/index";
 
 /*
@@ -66,11 +66,11 @@ export const grid: GridOptions = {
 export const baseTooltip: TooltipOptions = {
 	datapoint: {
 		horizontalOffset: 10,
-		enabled: true,
+		enabled: true
 	},
 	title: {
-		verticalOffset: .75,
-		width: .4
+		verticalOffset: 0.75,
+		width: 0.4
 	}
 };
 
@@ -81,7 +81,7 @@ export const axisChartTooltip: AxisTooltipOptions = Tools.merge({}, baseTooltip,
 	}
 } as AxisTooltipOptions);
 
-export const barChartTooltip: BarTooltipOptions = Tools.merge({}, axisChartTooltip , {
+export const barChartTooltip: BarTooltipOptions = Tools.merge({}, axisChartTooltip, {
 	datapoint: {
 		verticalOffset: 4
 	},
@@ -92,7 +92,7 @@ export const barChartTooltip: BarTooltipOptions = Tools.merge({}, axisChartToolt
 
 // We setup no axes by default, the TwoDimensionalAxes component
 // Will setup axes options based on what user provides
-const axes: AxesOptions = { };
+const axes: AxesOptions = {};
 
 const timeScale: TimeScaleOptions = {
 	addSpaceOnEdges: true
@@ -139,16 +139,12 @@ const baseBarChart: BarChartOptions = Tools.merge({}, axisChart, {
 /**
  * options specific to simple bar charts
  */
-const simpleBarChart: BarChartOptions = Tools.merge({}, baseBarChart, {
-
-} as BarChartOptions);
+const simpleBarChart: BarChartOptions = Tools.merge({}, baseBarChart, {} as BarChartOptions);
 
 /**
  * options specific to simple bar charts
  */
-const groupedBarChart: BarChartOptions = Tools.merge({}, baseBarChart, {
-
-} as BarChartOptions);
+const groupedBarChart: BarChartOptions = Tools.merge({}, baseBarChart, {} as BarChartOptions);
 
 /**
  * options specific to stacked bar charts
@@ -158,6 +154,8 @@ const stackedBarChart: StackedBarChartOptions = Tools.merge({}, baseBarChart, {
 		dividerSize: 1.5
 	} as StackedBarOptions)
 } as BarChartOptions);
+
+const heatmapChart: AxisChartOptions = Tools.merge({}, axisChart, {} as AxisChartOptions);
 
 /**
  * options specific to line charts
@@ -232,7 +230,8 @@ export const options = {
 	lineChart,
 	scatterChart,
 	pieChart,
-	donutChart
+	donutChart,
+	heatmapChart
 };
 
 /**

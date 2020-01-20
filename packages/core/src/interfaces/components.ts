@@ -18,16 +18,16 @@ export interface LayoutComponentChild {
 	 * how the layout child will grow or shrink in x & y directions
 	 */
 	growth?: {
-		x: LayoutGrowth,
-		y: LayoutGrowth
+		x: LayoutGrowth;
+		y: LayoutGrowth;
 	};
 }
-
 
 /**
  * customize the legend component
  */
 export interface LegendOptions {
+	hide?: boolean;
 	position?: LegendPositions;
 	/**
 	 * the clickability of legend items
@@ -73,17 +73,17 @@ export interface TooltipOptions {
 		/**
 		 * vertical offset for tooltip placement
 		 */
-		verticalOffset?: number
+		verticalOffset?: number;
 	};
 	title?: {
 		/**
 		 * vertical offset for title tooltip placement. < 0 shifts the tooltip above title, > 0 shifts vertically down
 		 */
-		verticalOffset?: number
+		verticalOffset?: number;
 		/**
 		 * max width of title tooltip relative to the width of the chart-svg (percentage should be < 1)
 		 */
-		width?: number
+		width?: number;
 	};
 }
 
@@ -96,11 +96,11 @@ export interface AxisTooltipOptions extends TooltipOptions {
 		/**
 		 * controls whether the gridlines are active for tooltip support
 		 */
-		enabled?: boolean,
+		enabled?: boolean;
 		/**
 		 * optional set threshold (value between 0 and 1) for active gridlines
 		 */
-		threshold?: number
+		threshold?: number;
 	};
 }
 

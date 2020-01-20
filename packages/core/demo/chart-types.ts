@@ -1,4 +1,4 @@
-const {
+import {
 	// Bar
 	groupedBarOptions,
 	groupedBarData,
@@ -29,10 +29,18 @@ const {
 	scatterTimeSeriesOptions,
 	scatterTimeSeriesData,
 	scatterOptions,
-	scatterData
-} = require("./demo-data/index");
+	scatterData,
+	// Heatmap
+	heatmapData,
+	heatmapOptions
+} from "./demo-data";
 
 export const chartTypes = [
+	{
+		id: "heatmap",
+		options: heatmapOptions,
+		data: heatmapData
+	},
 	{
 		id: "grouped-bar",
 		options: groupedBarOptions,

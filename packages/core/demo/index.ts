@@ -5,7 +5,8 @@ import {
 	LineChart,
 	ScatterChart,
 	PieChart,
-	DonutChart
+	DonutChart,
+	HeatmapChart
 } from "../src/index";
 
 // Styles
@@ -195,6 +196,8 @@ chartTypes.forEach(type => {
 			case "donut":
 				classToInitialize = DonutChart;
 				break;
+			case "heatmap":
+				classToInitialize = HeatmapChart;
 		}
 
 		// Add `height` to the chart options

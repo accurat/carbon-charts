@@ -10,14 +10,7 @@ import {
 
 // Misc
 import { ChartModel } from "./model";
-import {
-	Component,
-	Title,
-	Legend,
-	LayoutComponent,
-	Tooltip,
-	Spacer
-} from "./components";
+import { Component, Title, Legend, LayoutComponent, Tooltip, Spacer } from "./components";
 import { Tools } from "./tools";
 
 // Services
@@ -42,10 +35,7 @@ export class Chart {
 		// Initialize all services
 		Object.keys(this.services).forEach(serviceName => {
 			const serviceObj = this.services[serviceName];
-			this.services[serviceName] = new serviceObj(
-				this.model,
-				this.services
-			);
+			this.services[serviceName] = new serviceObj(this.model, this.services);
 		});
 
 		// Call update() when model has been updated
@@ -96,9 +86,7 @@ export class Chart {
 			return transition.end().catch(e => e); // Skip rejects since we don't care about those;
 		});
 
-		Promise.all(promises).then(() =>
-			this.services.events.dispatchEvent("render-finished")
-		);
+		Promise.all(promises).then(() => this.services.events.dispatchEvent("render-finished"));
 	}
 
 	destroy() {
@@ -142,24 +130,18 @@ export class Chart {
 		// TODORF - REUSE BETWEEN AXISCHART & CHART
 		// Decide the position of the legend in reference to the chart
 		let fullFrameComponentDirection = LayoutDirection.COLUMN;
-		const legendPosition = Tools.getProperty(
-			this.model.getOptions(),
-			"legend",
-			"position"
-		);
+		const legendPosition = Tools.getProperty(this.model.getOptions(), "legend", "position");
 		if (legendPosition === "left") {
 			fullFrameComponentDirection = LayoutDirection.ROW;
 
 			if (!this.model.getOptions().legend.orientation) {
-				this.model.getOptions().legend.orientation =
-					LegendOrientations.VERTICAL;
+				this.model.getOptions().legend.orientation = LegendOrientations.VERTICAL;
 			}
 		} else if (legendPosition === "right") {
 			fullFrameComponentDirection = LayoutDirection.ROW_REVERSE;
 
 			if (!this.model.getOptions().legend.orientation) {
-				this.model.getOptions().legend.orientation =
-					LegendOrientations.VERTICAL;
+				this.model.getOptions().legend.orientation = LegendOrientations.VERTICAL;
 			}
 		} else if (legendPosition === "bottom") {
 			fullFrameComponentDirection = LayoutDirection.COLUMN_REVERSE;
@@ -180,11 +162,9 @@ export class Chart {
 				new LayoutComponent(
 					this.model,
 					this.services,
-					[
-						legendComponent,
-						legendSpacerComponent,
-						graphFrameComponent
-					],
+					[legendSpacerComponent, graphFrameComponent].concat(
+						this.model.getOptions().legend.hide ? [] : legendComponent
+					),
 					{
 						direction: fullFrameComponentDirection
 					}
@@ -215,14 +195,9 @@ export class Chart {
 		topLevelLayoutComponents.push(fullFrameComponent);
 
 		return [
-			new LayoutComponent(
-				this.model,
-				this.services,
-				topLevelLayoutComponents,
-				{
-					direction: LayoutDirection.COLUMN
-				}
-			)
+			new LayoutComponent(this.model, this.services, topLevelLayoutComponents, {
+				direction: LayoutDirection.COLUMN
+			})
 		];
 	}
 }
