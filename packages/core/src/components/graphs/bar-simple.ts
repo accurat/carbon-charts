@@ -1,6 +1,6 @@
 // Internal Imports
 import { Bar } from "./bar";
-import { TooltipTypes, Roles } from "../../interfaces";
+import { TooltipTypes, Roles, Events } from "../../interfaces";
 
 // D3 Imports
 import { select } from "d3-selection";
@@ -136,12 +136,32 @@ export class SimpleBar extends Bar {
 							.toString()
 					);
 
+				// Dispatch mouse event
+				self.services.events.dispatchEvent(Events.Bar.BAR_MOUSEOVER, {
+					element: hoveredElement,
+					datum
+				});
+
 				self.services.events.dispatchEvent("show-tooltip", {
 					hoveredElement,
 					type: TooltipTypes.DATAPOINT
 				});
 			})
-			.on("mouseout", function() {
+			.on("mousemove", function(datum) {
+				// Dispatch mouse event
+				self.services.events.dispatchEvent(Events.Bar.BAR_MOUSEMOVE, {
+					element: select(this),
+					datum
+				});
+			})
+			.on("click", function(datum) {
+				// Dispatch mouse event
+				self.services.events.dispatchEvent(Events.Bar.BAR_CLICK, {
+					element: select(this),
+					datum
+				});
+			})
+			.on("mouseout", function(datum) {
 				const hoveredElement = select(this);
 				hoveredElement.classed("hovered", false);
 
@@ -152,6 +172,12 @@ export class SimpleBar extends Bar {
 						)
 					)
 					.attr("fill", (d: any) => self.model.getFillScale()(d.label));
+
+				// Dispatch mouse event
+				self.services.events.dispatchEvent(Events.Bar.BAR_MOUSEOUT, {
+					element: hoveredElement,
+					datum
+				});
 
 				// Hide tooltip
 				self.services.events.dispatchEvent("hide-tooltip", { hoveredElement });
