@@ -113,7 +113,7 @@ export interface LineChartOptions extends ScatterChartOptions {
 		| string
 		| {
 				name: string;
-		  };
+		};
 }
 
 /**

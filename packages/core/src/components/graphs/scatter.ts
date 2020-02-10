@@ -91,14 +91,14 @@ export class Scatter extends Component {
 			.selectAll("circle.dot")
 			.transition(this.services.transitions.getTransition("legend-hover-scatter"))
 			.attr("opacity", d => (d.datasetLabel !== hoveredElement.datum()["key"] ? 0.3 : 1));
-	};
+	}
 
 	handleLegendMouseOut = (event: CustomEvent) => {
 		this.parent
 			.selectAll("circle.dot")
 			.transition(this.services.transitions.getTransition("legend-mouseout-scatter"))
 			.attr("opacity", 1);
-	};
+	}
 
 	// TODO - This method could be re-used in more graphs
 	addLabelsToDataPoints(d, index) {

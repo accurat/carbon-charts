@@ -157,7 +157,7 @@ export class GroupedBar extends Bar {
 			.selectAll("path.bar")
 			.transition(this.services.transitions.getTransition("legend-hover-bar"))
 			.attr("opacity", d => (d.datasetLabel !== hoveredElement.datum()["key"] ? 0.3 : 1));
-	};
+	}
 
 	// Un-highlight all elements
 	handleLegendMouseOut = (event: CustomEvent) => {
@@ -165,7 +165,7 @@ export class GroupedBar extends Bar {
 			.selectAll("path.bar")
 			.transition(this.services.transitions.getTransition("legend-mouseout-bar"))
 			.attr("opacity", 1);
-	};
+	}
 
 	addEventListeners() {
 		const self = this;

@@ -315,7 +315,7 @@ export class Pie extends Component {
 			.selectAll("path.slice")
 			.transition(this.services.transitions.getTransition("legend-hover-bar"))
 			.attr("opacity", d => (d.data.label !== hoveredElement.datum()["key"] ? 0.3 : 1));
-	};
+	}
 
 	// Un-highlight all elements
 	handleLegendMouseOut = (event: CustomEvent) => {
@@ -323,7 +323,7 @@ export class Pie extends Component {
 			.selectAll("path.slice")
 			.transition(this.services.transitions.getTransition("legend-mouseout-bar"))
 			.attr("opacity", 1);
-	};
+	}
 
 	addEventListeners() {
 		const self = this;
