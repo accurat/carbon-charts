@@ -27,7 +27,7 @@ export const groupedBarOptions = {
 	title: "Grouped bar (discrete)",
 	axes: {
 		left: {
-			primary: true,
+			primary: true
 		},
 		bottom: {
 			scaleType: "labels",
@@ -44,7 +44,7 @@ export const groupedHorizontalBarOptions = {
 	axes: {
 		left: {
 			scaleType: "labels",
-			primary: true,
+			primary: true
 		},
 		bottom: {
 			secondary: true,
