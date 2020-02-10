@@ -21,7 +21,7 @@ import {
 	CurveBundleFactory,
 	CurveCardinalFactory,
 	CurveCatmullRomFactory,
-	CurveGenerator
+	CurveGenerator,
 } from "d3-shape";
 
 // this import is needed because of typescript bug (error TS4029)
@@ -49,7 +49,7 @@ export class Curves extends Service {
 		curveNatural,
 		curveStep,
 		curveStepAfter,
-		curveStepBefore
+		curveStepBefore,
 	};
 
 	getD3Curve() {
@@ -59,9 +59,11 @@ export class Curves extends Service {
 		// Parse curve type whether the user provided a string
 		// Or an object with more options
 		if (curveOptions) {
-			if (typeof curveOptions === "string") { // curve: 'string'
+			if (typeof curveOptions === "string") {
+				// curve: 'string'
 				curveName = curveOptions;
-			} else { // curve: { name: 'string' }
+			} else {
+				// curve: { name: 'string' }
 				curveName = curveOptions.name;
 			}
 		}

@@ -1,54 +1,54 @@
-const path = require('path');
+const path = require("path");
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackExcludeAssetsPlugin = require("html-webpack-exclude-assets-plugin");
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-	mode: 'development',
-	devtool: 'sourcemap',
+	mode: "development",
+	devtool: "sourcemap",
 	entry: {
-		"index": "./demo/index.ts",
-		"styles": "./src/styles/styles-white.scss",
+		index: "./demo/index.ts",
+		styles: "./src/styles/styles-white.scss",
 		"styles-g10": "./src/styles/styles-g10.scss",
 		"styles-g90": "./src/styles/styles-g90.scss",
 		"styles-g100": "./src/styles/styles-g100.scss",
 	},
 	output: {
-		path: __dirname + '/demo/bundle',
-		filename: '[name].js',
-		chunkFilename: '[name].chunk.js',
-		libraryTarget: 'umd',
-		library: 'Charts',
+		path: __dirname + "/demo/bundle",
+		filename: "[name].js",
+		chunkFilename: "[name].chunk.js",
+		libraryTarget: "umd",
+		library: "Charts",
 	},
 	optimization: {
 		splitChunks: {
-			chunks: 'all',
+			chunks: "all",
 		},
 	},
 	resolve: {
 		// Add ".ts" and ".tsx" as a resolvable extension.
-		extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.json', '.js'],
+		extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".json", ".js"],
 	},
 	module: {
 		rules: [
 			// all files with a ".ts" or ".tsx" extension will be handled by "ts-loader"
-			{ test: /\.ts$/, loader: 'ts-loader?configFile=tsconfig-demo.json' },
-			{ test: /\.html?$/, loader: 'html-loader' },
+			{ test: /\.ts$/, loader: "ts-loader?configFile=tsconfig-demo.json" },
+			{ test: /\.html?$/, loader: "html-loader" },
 			{
 				test: /\.s?css$/,
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
 					},
-					'css-loader',
+					"css-loader",
 					{
-						loader: 'sass-loader',
+						loader: "sass-loader",
 						options: {
 							sassOptions: {
-								includePaths: [path.resolve(__dirname + '/../../node_modules')],
+								includePaths: [path.resolve(__dirname + "/../../node_modules")],
 							},
 						},
 					},
@@ -56,28 +56,28 @@ module.exports = {
 			},
 			{
 				test: /\.(jpg|png|gif|eot|ttf|woff|woff2)$/,
-				loader: 'url-loader',
+				loader: "url-loader",
 			},
 			{
 				test: /\.svg?$/,
-				loader: 'raw-loader',
+				loader: "raw-loader",
 			},
 		],
 	},
 	plugins: [
 		new MiniCssExtractPlugin({
-			filename: '[name].css',
+			filename: "[name].css",
 		}),
 		new HtmlWebpackPlugin({
-			template: './demo/index.html',
+			template: "./demo/index.html",
 			excludeAssets: [/styles-.*.css/],
 		}),
 		new HtmlWebpackExcludeAssetsPlugin(),
-		new CopyWebpackPlugin([{ from: 'demo/assets' }]),
+		new CopyWebpackPlugin([{ from: "demo/assets" }]),
 	],
 	devServer: {
-		contentBase: './demo',
-		host: '0.0.0.0',
+		contentBase: "./demo",
+		host: "0.0.0.0",
 		port: process.env.PORT || 9001,
 		historyApiFallback: true,
 		disableHostCheck: true,

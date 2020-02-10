@@ -19,13 +19,15 @@ export class PieChartModel extends ChartModel {
 		// and sort labels based on the data value order
 		const dataset = Tools.getProperty(data, "datasets", 0);
 		if (dataset) {
-			const sortedLabelsAndValues = data.labels.map((label, i) => {
-				return {
-					label,
-					value: dataset.data[i],
-					fillColor: dataset.fillColors ? dataset.fillColors[i] : undefined
-				};
-			}).sort((a: any, b: any) => b.value - a.value);
+			const sortedLabelsAndValues = data.labels
+				.map((label, i) => {
+					return {
+						label,
+						value: dataset.data[i],
+						fillColor: dataset.fillColors ? dataset.fillColors[i] : undefined,
+					};
+				})
+				.sort((a: any, b: any) => b.value - a.value);
 
 			dataset.data = sortedLabelsAndValues.map(d => d.value);
 			data.labels = sortedLabelsAndValues.map(d => d.label);
@@ -72,15 +74,16 @@ export class PieChartModel extends ChartModel {
 		return displayData;
 	}
 
-
 	/*
 	 * Data labels
-	*/
+	 */
 	toggleDataLabel(changedLabel: string) {
 		const { ACTIVE, DISABLED } = Configuration.legend.items.status;
 		const dataLabels = this.get("dataLabels");
 
-		const hasDeactivatedItems = Object.keys(dataLabels).some(label => dataLabels[label] === DISABLED);
+		const hasDeactivatedItems = Object.keys(dataLabels).some(
+			label => dataLabels[label] === DISABLED
+		);
 		const activeItems = Object.keys(dataLabels).filter(label => dataLabels[label] === ACTIVE);
 		// If there are deactivated items, toggle "changedLabel"
 		if (hasDeactivatedItems) {
@@ -92,34 +95,38 @@ export class PieChartModel extends ChartModel {
 					dataLabels[label] = ACTIVE;
 				});
 			} else {
-				dataLabels[changedLabel] = dataLabels[changedLabel] === DISABLED ? ACTIVE : DISABLED;
+				dataLabels[changedLabel] =
+					dataLabels[changedLabel] === DISABLED ? ACTIVE : DISABLED;
 			}
 		} else {
 			// If every item is active, then enable "changedLabel" and disable all other items
 			Object.keys(dataLabels).forEach(label => {
-				dataLabels[label] = (label === changedLabel ? ACTIVE : DISABLED);
+				dataLabels[label] = label === changedLabel ? ACTIVE : DISABLED;
 			});
 		}
 
 		// Update model
 		this.set({
-			dataLabels
+			dataLabels,
 		});
 	}
 
 	/*
 	 * Fill scales
-	*/
+	 */
 	setColorScale() {
 		const dataset = this.getDisplayData().datasets[0];
 		if (dataset.fillColors) {
-			this.colorScale = scaleOrdinal().range(dataset.fillColors).domain(this.allDataLabels);
+			this.colorScale = scaleOrdinal()
+				.range(dataset.fillColors)
+				.domain(this.allDataLabels);
 		} else {
 			const colors = colorPalettes.DEFAULT;
-			this.colorScale = scaleOrdinal().range(colors).domain(this.allDataLabels);
+			this.colorScale = scaleOrdinal()
+				.range(colors)
+				.domain(this.allDataLabels);
 		}
 	}
-
 
 	getFillColor(label: string) {
 		const options = this.getOptions();

@@ -21,7 +21,7 @@ import {
 	subHours,
 	differenceInMinutes,
 	addMinutes,
-	subMinutes
+	subMinutes,
 } from "date-fns";
 
 export class CartesianScales extends Service {
@@ -29,14 +29,14 @@ export class CartesianScales extends Service {
 		top: null,
 		right: null,
 		bottom: null,
-		left: null
+		left: null,
 	};
 
 	protected scales = {
 		top: null,
 		right: null,
 		bottom: null,
-		left: null
+		left: null,
 	};
 
 	protected domainAxisPosition: AxisPositions;
@@ -186,7 +186,7 @@ export class CartesianScales extends Service {
 				displayData.datasets.forEach(dataset => {
 					activePoints.push({
 						datasetLabel: dataset.label,
-						value: dataset.data[index]
+						value: dataset.data[index],
 					});
 				});
 				break;
@@ -290,35 +290,35 @@ export class CartesianScales extends Service {
 				if (differenceInYears(endDate, startDate) > 1) {
 					return [
 						subYears(startDate, spaceToAddToEdges),
-						addYears(endDate, spaceToAddToEdges)
+						addYears(endDate, spaceToAddToEdges),
 					];
 				}
 
 				if (differenceInMonths(endDate, startDate) > 1) {
 					return [
 						subMonths(startDate, spaceToAddToEdges),
-						addMonths(endDate, spaceToAddToEdges)
+						addMonths(endDate, spaceToAddToEdges),
 					];
 				}
 
 				if (differenceInDays(endDate, startDate) > 1) {
 					return [
 						subDays(startDate, spaceToAddToEdges),
-						addDays(endDate, spaceToAddToEdges)
+						addDays(endDate, spaceToAddToEdges),
 					];
 				}
 
 				if (differenceInHours(endDate, startDate) > 1) {
 					return [
 						subHours(startDate, spaceToAddToEdges),
-						addHours(endDate, spaceToAddToEdges)
+						addHours(endDate, spaceToAddToEdges),
 					];
 				}
 
 				if (differenceInMinutes(endDate, startDate) > 1) {
 					return [
 						subMinutes(startDate, spaceToAddToEdges),
-						addMinutes(endDate, spaceToAddToEdges)
+						addMinutes(endDate, spaceToAddToEdges),
 					];
 				}
 

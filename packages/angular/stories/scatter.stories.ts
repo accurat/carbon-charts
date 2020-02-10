@@ -8,7 +8,7 @@ import {
 	scatterTimeSeriesOptions,
 	scatterTimeSeriesData,
 	scatterOptions,
-	scatterData
+	scatterData,
 } from "../../core/demo/demo-data/index";
 import { addWidthAndHeight } from "./commons";
 
@@ -26,21 +26,21 @@ const stories = storiesOf("Scatter", module).addDecorator(withKnobs);
 stories.add(scatterOptions.title, () => ({
 	template,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
-		data:  object("Data", scatterData),
-		options: object("Options", addWidthAndHeight(scatterOptions))
-	}
+		data: object("Data", scatterData),
+		options: object("Options", addWidthAndHeight(scatterOptions)),
+	},
 }));
 
 stories.add(scatterTimeSeriesOptions.title, () => ({
 	template,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", scatterTimeSeriesData),
-		options: object("Options", addWidthAndHeight(scatterTimeSeriesOptions))
-	}
+		options: object("Options", addWidthAndHeight(scatterTimeSeriesOptions)),
+	},
 }));

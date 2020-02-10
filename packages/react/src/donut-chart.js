@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { DonutChart as DC } from '@carbon/charts';
-import BaseChart from './base-chart';
+import { DonutChart as DC } from "@carbon/charts";
+import BaseChart from "./base-chart";
 
 export default class DonutChart extends BaseChart {
 	componentDidMount() {

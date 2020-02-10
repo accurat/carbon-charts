@@ -26,7 +26,9 @@ export class Donut extends Pie {
 		DOMUtils.appendOrSelect(svg, "text.donut-figure")
 			.attr("text-anchor", "middle")
 			.style("font-size", () => options.donut.center.numberFontSize(radius))
-			.transition(this.services.transitions.getTransition("donut-figure-enter-update", animate))
+			.transition(
+				this.services.transitions.getTransition("donut-figure-enter-update", animate)
+			)
 			.tween("text", function() {
 				return self.centerNumberTween(select(this));
 			});

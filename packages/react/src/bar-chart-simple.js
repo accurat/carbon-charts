@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { SimpleBarChart as SBC } from '@carbon/charts';
-import BaseChart from './base-chart';
+import { SimpleBarChart as SBC } from "@carbon/charts";
+import BaseChart from "./base-chart";
 
 export default class SimpleBarChart extends BaseChart {
 	componentDidMount() {

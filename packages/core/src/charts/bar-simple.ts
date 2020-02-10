@@ -15,7 +15,7 @@ import {
 	// the imports below are needed because of typescript bug (error TS4029)
 	Tooltip,
 	Legend,
-	LayoutComponent
+	LayoutComponent,
 } from "../components/index";
 
 export class SimpleBarChart extends AxisChart {
@@ -40,7 +40,7 @@ export class SimpleBarChart extends AxisChart {
 			new TwoDimensionalAxes(this.model, this.services),
 			new Grid(this.model, this.services),
 			new SimpleBar(this.model, this.services),
-			new ZeroLine(this.model, this.services)
+			new ZeroLine(this.model, this.services),
 		];
 
 		const components: any[] = this.getAxisChartComponents(graphFrameComponents);

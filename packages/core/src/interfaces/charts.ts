@@ -36,11 +36,21 @@ export interface BaseChartOptions {
 	/**
 	 * Optional function to generate the fill color based on datasetLabel, label, and/or data
 	 */
-	getFillColor?: (datasetLabel: any, label?: any, data?: any, defaultFillColor?: string) => string;
+	getFillColor?: (
+		datasetLabel: any,
+		label?: any,
+		data?: any,
+		defaultFillColor?: string
+	) => string;
 	/**
 	 * Optional function to generate the stroke color based on datasetLabel, label, and/or data
 	 */
-	getStrokeColor?: (datasetLabel: any, label?: any, data?: any, defaultStrokeColor?: string) => string;
+	getStrokeColor?: (
+		datasetLabel: any,
+		label?: any,
+		data?: any,
+		defaultStrokeColor?: string
+	) => string;
 	/**
 	 * stylesheet options
 	 */
@@ -99,9 +109,11 @@ export interface LineChartOptions extends ScatterChartOptions {
 	/**
 	 * options for the curve of the line
 	 */
-	curve?: string | {
-		name: string;
-	};
+	curve?:
+		| string
+		| {
+				name: string;
+		  };
 }
 
 /**
@@ -120,18 +132,16 @@ export interface PieChartOptions extends BaseChartOptions {
 		yOffsetCallout?: number;
 		callout?: {
 			minSliceDegree?: number;
-			offsetX?: number,
+			offsetX?: number;
 			offsetY?: number;
 			horizontalLineLength?: number;
 			textMargin?: number;
-		},
+		};
 		labels?: {
 			formatter?: Function;
-		}
+		};
 	};
 }
-
-
 
 /**
  * options specific to donut charts

@@ -1,6 +1,8 @@
 if (typeof window !== "undefined") {
 	(function() {
-		if (typeof window["CustomEvent"] === "function") { return false; }
+		if (typeof window["CustomEvent"] === "function") {
+			return false;
+		}
 
 		function CustomEvent(event, params) {
 			params = params || { bubbles: false, cancelable: false, detail: undefined };
@@ -15,7 +17,10 @@ if (typeof window !== "undefined") {
 
 	// Avoid multiple instances of babel-polyfill
 	function idempotentBabelPolyfill() {
-		if ((typeof global !== "undefined" && !global["_babelPolyfill"]) || !window["_babelPolyfill"]) {
+		if (
+			(typeof global !== "undefined" && !global["_babelPolyfill"]) ||
+			!window["_babelPolyfill"]
+		) {
 			return require("babel-polyfill");
 		}
 

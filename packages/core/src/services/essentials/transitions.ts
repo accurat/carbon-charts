@@ -11,10 +11,9 @@ export class Transitions extends Service {
 	// transitions: Transition<any, any, any, any>[];
 
 	init() {
-		this.services.events
-			.addEventListener("model-update", () => {
-				this.pendingTransitions = {};
-			});
+		this.services.events.addEventListener("model-update", () => {
+			this.pendingTransitions = {};
+		});
 	}
 
 	getTransition(name?: string, animate?: boolean): Transition<any, any, any, any> {
@@ -22,8 +21,10 @@ export class Transitions extends Service {
 			return this.getInstantTransition(name);
 		}
 
-		const t: any = transition(name)
-			.duration(Tools.getProperty(Configuration.transitions, name, "duration") || Configuration.transitions.default.duration);
+		const t: any = transition(name).duration(
+			Tools.getProperty(Configuration.transitions, name, "duration") ||
+				Configuration.transitions.default.duration
+		);
 
 		this.pendingTransitions[t._id] = t;
 		t.on("end interrupt cancel", () => {
@@ -33,8 +34,8 @@ export class Transitions extends Service {
 		return t;
 	}
 
-	getInstantTransition(name?: string): Transition<any, any, any, any>  {
-		const t: any =  transition(name).duration(0);
+	getInstantTransition(name?: string): Transition<any, any, any, any> {
+		const t: any = transition(name).duration(0);
 
 		this.pendingTransitions[t._id] = t;
 		t.on("end interrupt cancel", () => {

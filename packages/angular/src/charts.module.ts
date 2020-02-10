@@ -11,9 +11,7 @@ import { LineChartComponent } from "./line-chart.component";
 import { ScatterChartComponent } from "./scatter-chart.component";
 
 @NgModule({
-	imports: [
-		CommonModule
-	],
+	imports: [CommonModule],
 	declarations: [
 		BaseChart,
 		DonutChartComponent,
@@ -22,7 +20,7 @@ import { ScatterChartComponent } from "./scatter-chart.component";
 		GroupedBarChartComponent,
 		StackedBarChartComponent,
 		LineChartComponent,
-		ScatterChartComponent
+		ScatterChartComponent,
 	],
 	exports: [
 		BaseChart,
@@ -32,8 +30,7 @@ import { ScatterChartComponent } from "./scatter-chart.component";
 		GroupedBarChartComponent,
 		StackedBarChartComponent,
 		LineChartComponent,
-		ScatterChartComponent
-	]
+		ScatterChartComponent,
+	],
 })
-
 export class ChartsModule {}

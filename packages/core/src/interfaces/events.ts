@@ -5,7 +5,7 @@ export enum Pie {
 	SLICE_MOUSEOVER = "pie-slice-mouseover",
 	SLICE_MOUSEMOVE = "pie-slice-mousemove",
 	SLICE_CLICK = "pie-slice-click",
-	SLICE_MOUSEOUT = "pie-slice-mouseout"
+	SLICE_MOUSEOUT = "pie-slice-mouseout",
 }
 
 /**
@@ -15,7 +15,7 @@ export enum Bar {
 	BAR_MOUSEOVER = "bar-mouseover",
 	BAR_MOUSEMOVE = "bar-mousemove",
 	BAR_CLICK = "bar-click",
-	BAR_MOUSEOUT = "bar-mouseout"
+	BAR_MOUSEOUT = "bar-mouseout",
 }
 
 /**
@@ -25,7 +25,7 @@ export enum Scatter {
 	SCATTER_MOUSEOVER = "scatter-mouseover",
 	SCATTER_MOUSEMOVE = "scatter-mousemove",
 	SCATTER_CLICK = "scatter-click",
-	SCATTER_MOUSEOUT = "scatter-mouseout"
+	SCATTER_MOUSEOUT = "scatter-mouseout",
 }
 
 /**
@@ -35,5 +35,5 @@ export enum Line {
 	POINT_MOUSEOVER = "scatter-mouseover",
 	POINT_MOUSEMOVE = "scatter-mousemove",
 	POINT_CLICK = "scatter-click",
-	POINT_MOUSEOUT = "scatter-mouseout"
+	POINT_MOUSEOUT = "scatter-mouseout",
 }

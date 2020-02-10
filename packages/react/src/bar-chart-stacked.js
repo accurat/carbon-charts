@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { StackedBarChart as SBC } from '@carbon/charts';
-import BaseChart from './base-chart';
+import { StackedBarChart as SBC } from "@carbon/charts";
+import BaseChart from "./base-chart";
 
 export default class StackedBarChart extends BaseChart {
 	componentDidMount() {

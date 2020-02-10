@@ -1,7 +1,8 @@
 // Function to be used to randomize a value
 export const randomizeValue = (currentVal, negativeValueAllowed?) => {
 	const firstTry = Math.max(0.5 * currentVal, currentVal * Math.random() * (Math.random() * 5));
-	const result = currentVal > 0 ? Math.min(2 * currentVal, firstTry) : Math.max(2 * currentVal, firstTry);
+	const result =
+		currentVal > 0 ? Math.min(2 * currentVal, firstTry) : Math.max(2 * currentVal, firstTry);
 
 	if (Math.random() > 0.5 || negativeValueAllowed === false) {
 		return Math.floor(result);
@@ -24,5 +25,5 @@ export const colors = [
 	"#009c98",
 	"#002b50",
 	"#8a3800",
-	"#a66efa"
+	"#a66efa",
 ];

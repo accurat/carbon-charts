@@ -27,5 +27,5 @@ export {
 	LineChart,
 	ScatterChart,
 	PieChart,
-	DonutChart
+	DonutChart,
 };

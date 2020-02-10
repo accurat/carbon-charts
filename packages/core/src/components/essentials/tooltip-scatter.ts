@@ -2,7 +2,6 @@ import { Tooltip } from "./tooltip";
 import { Tools } from "../../tools";
 import { TooltipTypes } from "./../../interfaces";
 
-
 export class TooltipScatter extends Tooltip {
 	getTooltipHTML(data: any, type: TooltipTypes) {
 		if (type === TooltipTypes.TITLE) {
@@ -10,8 +9,13 @@ export class TooltipScatter extends Tooltip {
 			return super.getTooltipHTML(data, type);
 		}
 
-		const formattedValue = Tools.getProperty(this.model.getOptions(), "tooltip", "valueFormatter") ?
-		this.model.getOptions().tooltip.valueFormatter(data.value) : data.value.toLocaleString("en");
+		const formattedValue = Tools.getProperty(
+			this.model.getOptions(),
+			"tooltip",
+			"valueFormatter"
+		)
+			? this.model.getOptions().tooltip.valueFormatter(data.value)
+			: data.value.toLocaleString("en");
 
 		// For the tooltip color, we always want the normal stroke color, not dynamically determined by data value.
 		const indicatorColor = this.model.getStrokeColor(data.datasetLabel, data.label);

@@ -8,7 +8,7 @@ export enum ChartTheme {
 	DEFAULT = "default",
 	G100 = "g100",
 	G90 = "g90",
-	G10 = "g10"
+	G10 = "g10",
 }
 
 /**
@@ -18,7 +18,7 @@ export enum AxisPositions {
 	LEFT = "left",
 	RIGHT = "right",
 	TOP = "top",
-	BOTTOM = "bottom"
+	BOTTOM = "bottom",
 }
 
 /**
@@ -29,12 +29,12 @@ export enum AxisPositions {
  */
 export enum CartesianOrientations {
 	VERTICAL = "vertical",
-	HORIZONTAL = "horizontal"
+	HORIZONTAL = "horizontal",
 }
 
 export enum AxisTypes {
 	PRIMARY = "primary",
-	SECONDARY = "secondary"
+	SECONDARY = "secondary",
 }
 
 /**
@@ -44,7 +44,7 @@ export enum ScaleTypes {
 	TIME = "time",
 	LINEAR = "linear",
 	LOG = "log",
-	LABELS = "labels"
+	LABELS = "labels",
 }
 
 /**
@@ -53,7 +53,7 @@ export enum ScaleTypes {
 export enum TooltipPosition {
 	MOUSE = "mouse",
 	TOP = "top",
-	BOTTOM = "bottom"
+	BOTTOM = "bottom",
 }
 
 /**
@@ -62,7 +62,7 @@ export enum TooltipPosition {
 export enum TooltipTypes {
 	DATAPOINT = "datapoint",
 	GRIDLINE = "gridline",
-	TITLE = "title"
+	TITLE = "title",
 }
 
 /**
@@ -72,7 +72,7 @@ export enum LegendPositions {
 	RIGHT = "right",
 	LEFT = "left",
 	TOP = "top",
-	BOTTOM = "bottom"
+	BOTTOM = "bottom",
 }
 
 /**
@@ -80,7 +80,7 @@ export enum LegendPositions {
  */
 export enum LegendOrientations {
 	HORIZONTAL = "horizontal",
-	VERTICAL = "vertical"
+	VERTICAL = "vertical",
 }
 
 /**
@@ -90,7 +90,7 @@ export enum LayoutDirection {
 	ROW = "row",
 	COLUMN = "column",
 	ROW_REVERSE = "row-reverse",
-	COLUMN_REVERSE = "column-reverse"
+	COLUMN_REVERSE = "column-reverse",
 }
 
 /**
@@ -107,5 +107,5 @@ export enum LayoutGrowth {
  */
 export enum CalloutDirections {
 	LEFT = "left",
-	RIGHT = "right"
+	RIGHT = "right",
 }

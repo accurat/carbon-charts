@@ -19,7 +19,7 @@ export class ChartModel {
 
 	// Internal Model state
 	protected state: any = {
-		options: {}
+		options: {},
 	};
 
 	// Data labels
@@ -32,7 +32,6 @@ export class ChartModel {
 	// Fill scales & fill related objects
 	protected patternScale = {};
 	protected colorScale: any = {};
-
 
 	constructor(services: any) {
 		this.services = services;
@@ -84,7 +83,7 @@ export class ChartModel {
 
 		this.set({
 			data: sanitizedData,
-			dataLabels
+			dataLabels,
 		});
 
 		return sanitizedData;
@@ -128,7 +127,7 @@ export class ChartModel {
 	 */
 	setOptions(newOptions) {
 		this.set({
-			options: Tools.merge(this.getOptions(), newOptions)
+			options: Tools.merge(this.getOptions(), newOptions),
 		});
 	}
 
@@ -154,12 +153,14 @@ export class ChartModel {
 
 	/*
 	 * Data labels
-	*/
+	 */
 	toggleDataLabel(changedLabel: string) {
 		const { ACTIVE, DISABLED } = Configuration.legend.items.status;
 		const dataLabels = this.get("dataLabels");
 
-		const hasDeactivatedItems = Object.keys(dataLabels).some(label => dataLabels[label] === DISABLED);
+		const hasDeactivatedItems = Object.keys(dataLabels).some(
+			label => dataLabels[label] === DISABLED
+		);
 		const activeItems = Object.keys(dataLabels).filter(label => dataLabels[label] === ACTIVE);
 		// If there are deactivated items, toggle "changedLabel"
 		if (hasDeactivatedItems) {
@@ -171,33 +172,38 @@ export class ChartModel {
 					dataLabels[label] = ACTIVE;
 				});
 			} else {
-				dataLabels[changedLabel] = dataLabels[changedLabel] === DISABLED ? ACTIVE : DISABLED;
+				dataLabels[changedLabel] =
+					dataLabels[changedLabel] === DISABLED ? ACTIVE : DISABLED;
 			}
 		} else {
 			// If every item is active, then enable "changedLabel" and disable all other items
 			Object.keys(dataLabels).forEach(label => {
-				dataLabels[label] = (label === changedLabel ? ACTIVE : DISABLED);
+				dataLabels[label] = label === changedLabel ? ACTIVE : DISABLED;
 			});
 		}
 
 		// Update model
 		this.set({
-			dataLabels
+			dataLabels,
 		});
 	}
 
 	/*
 	 * Fill scales
-	*/
+	 */
 	setColorScale() {
 		if (this.getDisplayData().datasets[0].fillColors) {
 			this.getDisplayData().datasets.forEach(dataset => {
-				this.colorScale[dataset.label] = scaleOrdinal().range(dataset.fillColors).domain(this.allDataLabels);
+				this.colorScale[dataset.label] = scaleOrdinal()
+					.range(dataset.fillColors)
+					.domain(this.allDataLabels);
 			});
 		} else {
 			const colors = colorPalettes.DEFAULT;
 			this.getData().datasets.forEach((dataset, i) => {
-				this.colorScale[dataset.label] = scaleOrdinal().range([colors[i]]).domain(this.allDataLabels);
+				this.colorScale[dataset.label] = scaleOrdinal()
+					.range([colors[i]])
+					.domain(this.allDataLabels);
 			});
 		}
 	}
@@ -244,10 +250,9 @@ export class ChartModel {
 		return this.colorScale;
 	}
 
-
 	/*
 	 * Data labels
-	*/
+	 */
 	protected updateAllDataLabels() {
 		// If allDataLabels hasn't been initialized yet
 		// Set it to the current set of chart labels

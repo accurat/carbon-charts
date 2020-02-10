@@ -26,33 +26,39 @@ export class Scatter extends Component {
 		const svg = this.getContainerSVG();
 
 		// Update data on dot groups
-		const dotGroups = svg.selectAll("g.dots")
+		const dotGroups = svg
+			.selectAll("g.dots")
 			.data(this.model.getDisplayData().datasets, dataset => dataset.label);
 
 		// Remove dot groups that need to be removed
-		dotGroups.exit()
+		dotGroups
+			.exit()
 			.attr("opacity", 0)
 			.remove();
 
 		// Add the dot groups that need to be introduced
-		const dotGroupsEnter = dotGroups.enter()
+		const dotGroupsEnter = dotGroups
+			.enter()
 			.append("g")
-				.classed("dots", true)
-				.attr("role", Roles.GROUP);
+			.classed("dots", true)
+			.attr("role", Roles.GROUP);
 
 		// Update data on all circles
-		const dots = dotGroupsEnter.merge(dotGroups)
+		const dots = dotGroupsEnter
+			.merge(dotGroups)
 			.selectAll("circle.dot")
 			.data((d, i) => this.addLabelsToDataPoints(d, i));
 
 		// Add the circles that need to be introduced
-		const dotsEnter = dots.enter()
+		const dotsEnter = dots
+			.enter()
 			.append("circle")
 			.attr("opacity", 0);
 
 		const { filled } = options.points;
 		// Apply styling & position
-		dotsEnter.merge(dots)
+		dotsEnter
+			.merge(dots)
 			.raise()
 			.classed("dot", true)
 			.classed("filled", d => this.model.getIsFilled(d.datasetLabel, d.label, d, filled))
@@ -81,16 +87,18 @@ export class Scatter extends Component {
 	handleLegendOnHover = (event: CustomEvent) => {
 		const { hoveredElement } = event.detail;
 
-		this.parent.selectAll("circle.dot")
+		this.parent
+			.selectAll("circle.dot")
 			.transition(this.services.transitions.getTransition("legend-hover-scatter"))
-			.attr("opacity", d => (d.datasetLabel !== hoveredElement.datum()["key"]) ? 0.3 : 1);
-	}
+			.attr("opacity", d => (d.datasetLabel !== hoveredElement.datum()["key"] ? 0.3 : 1));
+	};
 
 	handleLegendMouseOut = (event: CustomEvent) => {
-		this.parent.selectAll("circle.dot")
+		this.parent
+			.selectAll("circle.dot")
 			.transition(this.services.transitions.getTransition("legend-mouseout-scatter"))
 			.attr("opacity", 1);
-	}
+	};
 
 	// TODO - This method could be re-used in more graphs
 	addLabelsToDataPoints(d, index) {
@@ -101,37 +109,43 @@ export class Scatter extends Component {
 			label: labels[i],
 			datasetLabel: d.label,
 			class: datum.class,
-			value: isNaN(datum) ? datum.value : datum
+			value: isNaN(datum) ? datum.value : datum,
 		}));
 	}
 
 	addEventListeners() {
 		const self = this;
-		this.parent.selectAll("circle")
+		this.parent
+			.selectAll("circle")
 			.on("mouseover mousemove", function(datum) {
 				const hoveredElement = select(this);
 				hoveredElement.classed("hovered", true);
 
-				hoveredElement.style("fill", (d: any) => self.model.getFillColor(d.datasetLabel, d.label, d));
+				hoveredElement.style("fill", (d: any) =>
+					self.model.getFillColor(d.datasetLabel, d.label, d)
+				);
 
-				const eventNameToDispatch = d3Event.type === "mouseover" ? Events.Scatter.SCATTER_MOUSEOVER : Events.Scatter.SCATTER_MOUSEMOVE;
+				const eventNameToDispatch =
+					d3Event.type === "mouseover"
+						? Events.Scatter.SCATTER_MOUSEOVER
+						: Events.Scatter.SCATTER_MOUSEMOVE;
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(eventNameToDispatch, {
 					element: hoveredElement,
-					datum
+					datum,
 				});
 
 				// Show tooltip
 				self.services.events.dispatchEvent("show-tooltip", {
 					hoveredElement,
-					type: TooltipTypes.DATAPOINT
+					type: TooltipTypes.DATAPOINT,
 				});
 			})
 			.on("click", function(datum) {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Scatter.SCATTER_CLICK, {
 					element: select(this),
-					datum
+					datum,
 				});
 			})
 			.on("mouseout", function(datum) {
@@ -145,7 +159,7 @@ export class Scatter extends Component {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Scatter.SCATTER_MOUSEOUT, {
 					element: hoveredElement,
-					datum
+					datum,
 				});
 
 				// Hide tooltip
@@ -155,7 +169,8 @@ export class Scatter extends Component {
 
 	destroy() {
 		// Remove event listeners
-		this.parent.selectAll("circle")
+		this.parent
+			.selectAll("circle")
 			.on("mousemove", null)
 			.on("mouseout", null);
 

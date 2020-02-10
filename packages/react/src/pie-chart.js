@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { PieChart as PC } from '@carbon/charts';
-import BaseChart from './base-chart';
+import { PieChart as PC } from "@carbon/charts";
+import BaseChart from "./base-chart";
 
 export default class PieChart extends BaseChart {
 	componentDidMount() {

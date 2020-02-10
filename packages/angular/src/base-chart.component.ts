@@ -1,11 +1,4 @@
-import {
-	Component,
-	Input,
-	ViewChild,
-	OnInit,
-	AfterViewInit,
-	ElementRef
-} from "@angular/core";
+import { Component, Input, ViewChild, OnInit, AfterViewInit, ElementRef } from "@angular/core";
 
 /**
  * Wrapper around `BaseChart` in carbon charts library
@@ -14,7 +7,7 @@ import {
  */
 @Component({
 	selector: "ibm-base-chart",
-	template: ``
+	template: ``,
 })
 export class BaseChart implements AfterViewInit, OnInit {
 	constructor(protected elementRef: ElementRef) {}

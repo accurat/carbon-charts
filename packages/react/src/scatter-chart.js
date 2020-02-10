@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { ScatterChart as SC } from '@carbon/charts';
-import BaseChart from './base-chart';
+import { ScatterChart as SC } from "@carbon/charts";
+import BaseChart from "./base-chart";
 
 export default class ScatterChart extends BaseChart {
 	componentDidMount() {

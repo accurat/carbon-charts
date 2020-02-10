@@ -8,7 +8,7 @@ import {
 	uniq as lodashUnique,
 	// the imports below are needed because of typescript bug (error TS4029)
 	Cancelable,
-	DebounceSettings
+	DebounceSettings,
 } from "lodash-es";
 
 // Functions
@@ -33,7 +33,7 @@ export namespace Tools {
 	export function getDimensions(el) {
 		return {
 			width: parseFloat(el.style.width.replace("px", "") || el.offsetWidth),
-			height: parseFloat(el.style.height.replace("px", "") || el.offsetHeight)
+			height: parseFloat(el.style.height.replace("px", "") || el.offsetHeight),
 		};
 	}
 
@@ -49,12 +49,15 @@ export namespace Tools {
 		const transformStr = elementRef.getAttribute("transform").match(translateRegex);
 		// check for the match
 		if (transformStr[0]) {
-			const transforms = transformStr[0].replace(/translate\(/, "").replace(/\)/, "").split(",");
+			const transforms = transformStr[0]
+				.replace(/translate\(/, "")
+				.replace(/\)/, "")
+				.split(",");
 
 			return {
-					tx: transforms[0],
-					ty: transforms[1]
-				};
+				tx: transforms[0],
+				ty: transforms[1],
+			};
 		}
 		return null;
 	}
@@ -77,7 +80,7 @@ export namespace Tools {
 
 		return {
 			x: parseFloat(xyString[0]),
-			y: parseFloat(xyString[1])
+			y: parseFloat(xyString[1]),
 		};
 	}
 
@@ -101,7 +104,7 @@ export namespace Tools {
 	 * @returns The percentage in the form of a number
 	 */
 	export function convertValueToPercentage(item, fullData) {
-		const percentage = item / fullData.reduce((accum, val) => accum + val.value, 0) * 100;
+		const percentage = (item / fullData.reduce((accum, val) => accum + val.value, 0)) * 100;
 		return percentage < 1 ? percentage.toPrecision(1) : Math.floor(percentage);
 	}
 
@@ -119,7 +122,7 @@ export namespace Tools {
 	export function arrayDifferences(oldArray: any[], newArray: any[]) {
 		const difference = {
 			missing: [],
-			added: []
+			added: [],
 		};
 
 		oldArray.forEach(element => {
@@ -202,21 +205,30 @@ export namespace Tools {
 		y1: number;
 	}
 
-	export const flipSVGCoordinatesBasedOnOrientation = (verticalCoordinates: SVGPathCoordinates, orientation?: CartesianOrientations) => {
+	export const flipSVGCoordinatesBasedOnOrientation = (
+		verticalCoordinates: SVGPathCoordinates,
+		orientation?: CartesianOrientations
+	) => {
 		if (orientation === CartesianOrientations.HORIZONTAL) {
 			return {
 				y0: verticalCoordinates.x0,
 				y1: verticalCoordinates.x1,
 				x0: verticalCoordinates.y0,
-				x1: verticalCoordinates.y1
+				x1: verticalCoordinates.y1,
 			};
 		}
 
 		return verticalCoordinates;
 	};
 
-	export const generateSVGPathString = (verticalCoordinates: SVGPathCoordinates, orientation?: CartesianOrientations) => {
-		const { x0, x1, y0, y1 } = flipSVGCoordinatesBasedOnOrientation(verticalCoordinates, orientation);
+	export const generateSVGPathString = (
+		verticalCoordinates: SVGPathCoordinates,
+		orientation?: CartesianOrientations
+	) => {
+		const { x0, x1, y0, y1 } = flipSVGCoordinatesBasedOnOrientation(
+			verticalCoordinates,
+			orientation
+		);
 
 		return `M${x0},${y0}L${x0},${y1}L${x1},${y1}L${x1},${y0}L${x0},${y0}`;
 	};

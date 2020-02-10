@@ -43,9 +43,7 @@ export class SimpleBarChartModel extends ChartModel {
 		});
 
 		// Remove labels that are disabled
-		displayData.labels = displayData.labels.filter(
-			label => dataLabels[label] === ACTIVE
-		);
+		displayData.labels = displayData.labels.filter(label => dataLabels[label] === ACTIVE);
 
 		return displayData;
 	}

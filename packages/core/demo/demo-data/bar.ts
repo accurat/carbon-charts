@@ -6,34 +6,34 @@ export const groupedBarData = {
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [65000, -29123, -35213, 51213, 16932]
+			data: [65000, -29123, -35213, 51213, 16932],
 		},
 		{
 			label: "Dataset 2",
-			data: [32432, -21312, -56456, -21312, 34234]
+			data: [32432, -21312, -56456, -21312, 34234],
 		},
 		{
 			label: "Dataset 3",
-			data: [-12312, 23232, 34232, -12312, -34234]
+			data: [-12312, 23232, 34232, -12312, -34234],
 		},
 		{
 			label: "Dataset 4",
-			data: [-32423, 21313, 64353, 24134, 32423]
-		}
-	]
+			data: [-32423, 21313, 64353, 24134, 32423],
+		},
+	],
 };
 
 export const groupedBarOptions = {
 	title: "Grouped bar (discrete)",
 	axes: {
 		left: {
-			primary: true
+			primary: true,
 		},
 		bottom: {
 			scaleType: "labels",
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 // Horizontal Grouped
@@ -44,12 +44,12 @@ export const groupedHorizontalBarOptions = {
 	axes: {
 		left: {
 			scaleType: "labels",
-			primary: true
+			primary: true,
 		},
 		bottom: {
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 // Simple bar
@@ -58,9 +58,9 @@ export const simpleBarData = {
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [65000, 29123, 35213, 51213, 16932]
-		}
-	]
+			data: [65000, 29123, 35213, 51213, 16932],
+		},
+	],
 };
 
 export const simpleBarOptions = {
@@ -68,13 +68,13 @@ export const simpleBarOptions = {
 	axes: {
 		left: {
 			domain: [0, 100000],
-			primary: true
+			primary: true,
 		},
 		bottom: {
 			scaleType: "labels",
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 // Horizontal Simple
@@ -85,12 +85,12 @@ export const simpleHorizontalBarOptions = {
 	axes: {
 		left: {
 			primary: true,
-			scaleType: "labels"
+			scaleType: "labels",
 		},
 		bottom: {
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 export const simpleBarTimeSeriesData = {
@@ -101,43 +101,43 @@ export const simpleBarTimeSeriesData = {
 			data: [
 				{
 					date: new Date(2019, 0, 1),
-					value: 10000
+					value: 10000,
 				},
 				{
 					date: new Date(2019, 0, 2),
-					value: 65000
+					value: 65000,
 				},
 				{
 					date: new Date(2019, 0, 3),
-					value: 10000
+					value: 10000,
 				},
 				{
 					date: new Date(2019, 0, 6),
-					value: 49213
+					value: 49213,
 				},
 				{
 					date: new Date(2019, 0, 7),
-					value: 51213
-				}
-			]
-		}
-	]
+					value: 51213,
+				},
+			],
+		},
+	],
 };
 
 export const simpleBarTimeSeriesOptions = {
 	title: "Simple bar (time series - Turkish)",
 	axes: {
 		left: {
-			primary: true
+			primary: true,
 		},
 		bottom: {
 			scaleType: "time",
-			secondary: true
-		}
+			secondary: true,
+		},
 	},
 	locale: {
-		time: turkishLocale
-	}
+		time: turkishLocale,
+	},
 };
 
 // Horizontal simple time series
@@ -146,12 +146,12 @@ export const simpleHorizontalBarTimeSeriesOptions = {
 	axes: {
 		left: {
 			scaleType: "time",
-			primary: true
+			primary: true,
 		},
 		bottom: {
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 export const simpleHorizontalBarTimeSeriesData = simpleBarTimeSeriesData;
@@ -162,21 +162,21 @@ export const stackedBarData = {
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [65000, 29123, 35213, 51213, 16932]
+			data: [65000, 29123, 35213, 51213, 16932],
 		},
 		{
 			label: "Dataset 2",
-			data: [32432, 21312, 56456, 21312, 34234]
+			data: [32432, 21312, 56456, 21312, 34234],
 		},
 		{
 			label: "Dataset 3",
-			data: [12312, 23232, 34232, 12312, 34234]
+			data: [12312, 23232, 34232, 12312, 34234],
 		},
 		{
 			label: "Dataset 4",
-			data: [32423, 21313, 64353, 24134, 32423]
-		}
-	]
+			data: [32423, 21313, 64353, 24134, 32423],
+		},
+	],
 };
 
 export const stackedBarOptions = {
@@ -184,13 +184,13 @@ export const stackedBarOptions = {
 	axes: {
 		left: {
 			primary: true,
-			stacked: true
+			stacked: true,
 		},
 		bottom: {
 			scaleType: "labels",
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 // horizontal stacked bar
@@ -201,13 +201,13 @@ export const stackedHorizontalBarOptions = {
 	axes: {
 		left: {
 			scaleType: "labels",
-			primary: true
+			primary: true,
 		},
 		bottom: {
 			stacked: true,
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 export const stackedBarTimeSeriesData = {
@@ -218,102 +218,102 @@ export const stackedBarTimeSeriesData = {
 			data: [
 				{
 					date: new Date(2019, 0, 1),
-					value: 10000
+					value: 10000,
 				},
 				{
 					date: new Date(2019, 0, 5),
-					value: 65000
+					value: 65000,
 				},
 				{
 					date: new Date(2019, 0, 8),
-					value: 10000
+					value: 10000,
 				},
 				{
 					date: new Date(2019, 0, 13),
-					value: 49213
+					value: 49213,
 				},
 				{
 					date: new Date(2019, 0, 17),
-					value: 51213
-				}
-			]
+					value: 51213,
+				},
+			],
 		},
 		{
 			label: "Dataset 2",
 			data: [
 				{
 					date: new Date(2019, 0, 3),
-					value: 75000
+					value: 75000,
 				},
 				{
 					date: new Date(2019, 0, 6),
-					value: 57312
+					value: 57312,
 				},
 				{
 					date: new Date(2019, 0, 8),
-					value: 21432
+					value: 21432,
 				},
 				{
 					date: new Date(2019, 0, 15),
-					value: 70323
+					value: 70323,
 				},
 				{
 					date: new Date(2019, 0, 19),
-					value: 21300
-				}
-			]
+					value: 21300,
+				},
+			],
 		},
 		{
 			label: "Dataset 3",
 			data: [
 				{
 					date: new Date(2019, 0, 1),
-					value: 50000
+					value: 50000,
 				},
 				{
 					date: new Date(2019, 0, 5),
-					value: 15000
+					value: 15000,
 				},
 				{
 					date: new Date(2019, 0, 8),
-					value: 20000
+					value: 20000,
 				},
 				{
 					date: new Date(2019, 0, 13),
-					value: 39213
+					value: 39213,
 				},
 				{
 					date: new Date(2019, 0, 17),
-					value: 61213
-				}
-			]
+					value: 61213,
+				},
+			],
 		},
 		{
 			label: "Dataset 4",
 			data: [
 				{
 					date: new Date(2019, 0, 2),
-					value: 10
+					value: 10,
 				},
 				{
 					date: new Date(2019, 0, 6),
-					value: 37312
+					value: 37312,
 				},
 				{
 					date: new Date(2019, 0, 8),
-					value: 51432
+					value: 51432,
 				},
 				{
 					date: new Date(2019, 0, 15),
-					value: 40323
+					value: 40323,
 				},
 				{
 					date: new Date(2019, 0, 19),
-					value: 31300
-				}
-			]
-		}
-	]
+					value: 31300,
+				},
+			],
+		},
+	],
 };
 
 export const stackedBarTimeSeriesOptions = {
@@ -321,13 +321,13 @@ export const stackedBarTimeSeriesOptions = {
 	axes: {
 		left: {
 			primary: true,
-			stacked: true
+			stacked: true,
 		},
 		bottom: {
 			scaleType: "time",
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 // Stacked horizontal bar (time series)
@@ -336,13 +336,13 @@ export const stackedHorizontalBarTimeSeriesOptions = {
 	axes: {
 		left: {
 			primary: true,
-			scaleType: "time"
+			scaleType: "time",
 		},
 		bottom: {
 			stacked: true,
-			secondary: true
-		}
-	}
+			secondary: true,
+		},
+	},
 };
 
 export const stackedHorizontalBarTimeSeriesData = stackedBarTimeSeriesData;

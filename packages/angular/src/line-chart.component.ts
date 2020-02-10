@@ -1,7 +1,4 @@
-import {
-	Component,
-	AfterViewInit
-} from "@angular/core";
+import { Component, AfterViewInit } from "@angular/core";
 
 import { BaseChart } from "./base-chart.component";
 
@@ -14,20 +11,17 @@ import { LineChart } from "@carbon/charts";
  */
 @Component({
 	selector: "ibm-line-chart",
-	template: ``
+	template: ``,
 })
 export class LineChartComponent extends BaseChart implements AfterViewInit {
 	/**
 	 * Runs after view init to create a chart, attach it to `elementRef` and draw it.
 	 */
 	ngAfterViewInit() {
-		this.chart = new LineChart(
-			this.elementRef.nativeElement,
-			{
-				data: this.data,
-				options: this.options
-			}
-		);
+		this.chart = new LineChart(this.elementRef.nativeElement, {
+			data: this.data,
+			options: this.options,
+		});
 
 		Object.assign(this, this.chart);
 	}

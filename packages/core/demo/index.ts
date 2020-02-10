@@ -5,7 +5,7 @@ import {
 	LineChart,
 	ScatterChart,
 	PieChart,
-	DonutChart
+	DonutChart,
 } from "../src/index";
 
 // Styles
@@ -67,7 +67,7 @@ const changeDemoData = (chartType: any, chartObj: any) => {
 			});
 
 			const newDataset = Object.assign({}, dataset, {
-				data: datasetNewData
+				data: datasetNewData,
 			});
 
 			return newDataset;
@@ -201,7 +201,7 @@ chartTypes.forEach(type => {
 		// Initialize chart
 		charts[type.id] = new classToInitialize(holder, {
 			data: type.data,
-			options: type.options
+			options: type.options,
 		});
 
 		setDemoActionsEventListener(type.id, charts[type.id]);

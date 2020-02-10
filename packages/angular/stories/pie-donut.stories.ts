@@ -8,7 +8,7 @@ import {
 	pieOptions,
 	pieData,
 	donutOptions,
-	donutData
+	donutData,
 } from "../../core/demo/demo-data/index";
 import { addWidthAndHeight } from "./commons";
 
@@ -23,12 +23,12 @@ pieStories.add(pieOptions.title, () => ({
 			#pieChart>
 		</ibm-pie-chart>`,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", pieData),
-		options: object("Options", addWidthAndHeight(pieOptions))
-	}
+		options: object("Options", addWidthAndHeight(pieOptions)),
+	},
 }));
 
 const donutStories = storiesOf("Donut", module).addDecorator(withKnobs);
@@ -42,10 +42,10 @@ donutStories.add(donutOptions.title, () => ({
 			#donutChart>
 		</ibm-donut-chart>`,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", donutData),
-		options: object("Options", addWidthAndHeight(donutOptions))
-	}
+		options: object("Options", addWidthAndHeight(donutOptions)),
+	},
 }));

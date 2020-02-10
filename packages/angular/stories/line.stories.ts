@@ -8,7 +8,7 @@ import {
 	lineTimeSeriesOptions,
 	lineTimeSeriesData,
 	lineData,
-	lineOptions
+	lineOptions,
 } from "../../core/demo/demo-data/index";
 import { addWidthAndHeight } from "./commons";
 
@@ -26,21 +26,21 @@ const stories = storiesOf("Line", module).addDecorator(withKnobs);
 stories.add(lineOptions.title, () => ({
 	template,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", lineData),
-		options: object("Options", addWidthAndHeight(lineOptions))
-	}
+		options: object("Options", addWidthAndHeight(lineOptions)),
+	},
 }));
 
 stories.add(lineTimeSeriesOptions.title, () => ({
 	template,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", lineTimeSeriesData),
-		options: object("Options", addWidthAndHeight(lineTimeSeriesOptions))
-	}
+		options: object("Options", addWidthAndHeight(lineTimeSeriesOptions)),
+	},
 }));

@@ -3,7 +3,7 @@ module.exports = ({ config }) => {
 		test: /\.(ts|tsx)$/,
 		use: [
 			{
-				loader: 'ts-loader?configFile=../../../core/tsconfig-demo.json',
+				loader: "ts-loader?configFile=../../../core/tsconfig-demo.json",
 			},
 		],
 	});

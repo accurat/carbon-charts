@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { GroupedBarChart as GBC } from '@carbon/charts';
-import BaseChart from './base-chart';
+import { GroupedBarChart as GBC } from "@carbon/charts";
+import BaseChart from "./base-chart";
 
 export default class GroupedBarChart extends BaseChart {
 	componentDidMount() {

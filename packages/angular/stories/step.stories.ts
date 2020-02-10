@@ -8,7 +8,7 @@ import {
 	stepOptions,
 	stepData,
 	stepTimeSeriesOptions,
-	stepTimeSeriesData
+	stepTimeSeriesData,
 } from "../../core/demo/demo-data/index";
 import { addWidthAndHeight } from "./commons";
 
@@ -26,21 +26,21 @@ const stories = storiesOf("Step", module).addDecorator(withKnobs);
 stories.add(stepOptions.title, () => ({
 	template,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", stepData),
-		options: object("Options", addWidthAndHeight(stepOptions))
-	}
+		options: object("Options", addWidthAndHeight(stepOptions)),
+	},
 }));
 
 stories.add(stepTimeSeriesOptions.title, () => ({
 	template,
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", stepTimeSeriesData),
-		options: object("Options", addWidthAndHeight(stepTimeSeriesOptions))
-	}
+		options: object("Options", addWidthAndHeight(stepTimeSeriesOptions)),
+	},
 }));

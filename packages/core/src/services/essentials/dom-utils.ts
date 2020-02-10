@@ -19,7 +19,7 @@ export class DOMUtils extends Service {
 
 		const attrDimensions = {
 			width: svgSelector.attr("width"),
-			height: svgSelector.attr("height")
+			height: svgSelector.attr("height"),
 		};
 
 		let bbox, bboxDimensions, boundingRect, boundingRectDimensions;
@@ -29,7 +29,7 @@ export class DOMUtils extends Service {
 			bbox = svgSelector.node().getBBox();
 			bboxDimensions = {
 				width: bbox.width,
-				height: bbox.height
+				height: bbox.height,
 			};
 		} catch (e) {}
 
@@ -37,20 +37,26 @@ export class DOMUtils extends Service {
 			boundingRect = svgSelector.node().getBoundingClientRect();
 			boundingRectDimensions = {
 				width: boundingRect.width,
-				height: boundingRect.height
+				height: boundingRect.height,
 			};
 		} catch (e) {}
 
 		const clientDimensions = {
 			width: svgSelector.node().clientWidth,
-			height: svgSelector.node().clientHeight
+			height: svgSelector.node().clientHeight,
 		};
 
 		const validateDimensions = dimensions => {
-			if (dimensions && dimensions.width && dimensions.height &&
-				!isNaN(dimensions.height) && !isNaN(dimensions.width) &&
+			if (
+				dimensions &&
+				dimensions.width &&
+				dimensions.height &&
+				!isNaN(dimensions.height) &&
+				!isNaN(dimensions.width) &&
 				("" + dimensions.width + dimensions.height).indexOf("%") === -1 &&
-				dimensions.width > 0 && dimensions.height > 0) {
+				dimensions.width > 0 &&
+				dimensions.height > 0
+			) {
 				return true;
 			}
 
@@ -80,7 +86,7 @@ export class DOMUtils extends Service {
 		try {
 			const nativeDimensions = {
 				width: Tools.getProperty(svgSelector.node(), "width", "baseVal", "value"),
-				height: Tools.getProperty(svgSelector.node(), "height", "baseVal", "value")
+				height: Tools.getProperty(svgSelector.node(), "height", "baseVal", "value"),
 			};
 			if (validateDimensions(nativeDimensions)) {
 				return nativeDimensions;
@@ -101,7 +107,7 @@ export class DOMUtils extends Service {
 
 		return {
 			width: 0,
-			height: 0
+			height: 0,
 		};
 	}
 
@@ -111,8 +117,7 @@ export class DOMUtils extends Service {
 
 		const selection = parent.select(query);
 		if (selection.empty()) {
-			return parent.append(elementToAppend)
-				.attr("class", querySections.slice(1).join(" "));
+			return parent.append(elementToAppend).attr("class", querySections.slice(1).join(" "));
 		}
 
 		return selection;
@@ -199,8 +204,10 @@ export class DOMUtils extends Service {
 				return;
 			}
 
-			if (Math.abs(containerWidth - holder.clientWidth) > 1
-				|| Math.abs(containerHeight - holder.clientHeight) > 1) {
+			if (
+				Math.abs(containerWidth - holder.clientWidth) > 1 ||
+				Math.abs(containerHeight - holder.clientHeight) > 1
+			) {
 				containerWidth = holder.clientWidth;
 				containerHeight = holder.clientHeight;
 

@@ -39,98 +39,98 @@ const {
 	scatterTimeSeriesOptions,
 	scatterTimeSeriesData,
 	scatterOptions,
-	scatterData
+	scatterData,
 } = require("./demo-data/index");
 
 export const chartTypes = [
 	{
 		id: "simple-bar",
 		options: simpleBarOptions,
-		data: simpleBarData
+		data: simpleBarData,
 	},
 	{
 		id: "simple-horizontal-bar-time-series",
 		options: simpleHorizontalBarTimeSeriesOptions,
-		data: simpleHorizontalBarTimeSeriesData
+		data: simpleHorizontalBarTimeSeriesData,
 	},
 	{
 		id: "simple-horizontal-bar",
 		options: simpleHorizontalBarOptions,
-		data: simpleHorizontalBarData
+		data: simpleHorizontalBarData,
 	},
 	{
 		id: "scatter-time-series",
 		options: scatterTimeSeriesOptions,
-		data: scatterTimeSeriesData
+		data: scatterTimeSeriesData,
 	},
 	{
 		id: "scatter",
 		options: scatterOptions,
-		data: scatterData
+		data: scatterData,
 	},
 	{
 		id: "grouped-bar",
 		options: groupedBarOptions,
-		data: groupedBarData
+		data: groupedBarData,
 	},
 	{
 		id: "grouped-horizontal-bar",
 		options: groupedHorizontalBarOptions,
-		data: groupedHorizontalBarData
+		data: groupedHorizontalBarData,
 	},
 	{
 		id: "stacked-bar",
 		options: stackedBarOptions,
-		data: stackedBarData
+		data: stackedBarData,
 	},
 	{
 		id: "stacked-horizontal-bar",
 		options: stackedHorizontalBarOptions,
-		data: stackedHorizontalBarData
+		data: stackedHorizontalBarData,
 	},
 	{
 		id: "simple-bar-time-series",
 		options: simpleBarTimeSeriesOptions,
-		data: simpleBarTimeSeriesData
+		data: simpleBarTimeSeriesData,
 	},
 	{
 		id: "stacked-bar-time-series",
 		options: stackedBarTimeSeriesOptions,
-		data: stackedBarTimeSeriesData
+		data: stackedBarTimeSeriesData,
 	},
 	{
 		id: "stacked-horizontal-bar-time-series",
 		options: stackedHorizontalBarTimeSeriesOptions,
-		data: stackedHorizontalBarTimeSeriesData
+		data: stackedHorizontalBarTimeSeriesData,
 	},
 	{
 		id: "pie",
 		options: pieOptions,
-		data: pieData
+		data: pieData,
 	},
 	{
 		id: "donut",
 		options: donutOptions,
-		data: donutData
+		data: donutData,
 	},
 	{
 		id: "line-time-series",
 		options: lineTimeSeriesOptions,
-		data: lineTimeSeriesData
+		data: lineTimeSeriesData,
 	},
 	{
 		id: "line",
 		options: lineOptions,
-		data: lineData
+		data: lineData,
 	},
 	{
 		id: "line-step",
 		options: stepOptions,
-		data: stepData
+		data: stepData,
 	},
 	{
 		id: "line-step-time-series",
 		options: stepTimeSeriesOptions,
-		data: stepTimeSeriesData
-	}
+		data: stepTimeSeriesData,
+	},
 ];

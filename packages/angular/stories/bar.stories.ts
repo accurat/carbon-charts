@@ -32,54 +32,54 @@ const stories = storiesOf("Bar", module).addDecorator(withKnobs);
 stories.add(simpleBarOptions.title, () => ({
 	template: template("simple"),
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", simpleBarData),
-		options: object("Options", addWidthAndHeight(simpleBarOptions))
-	}
+		options: object("Options", addWidthAndHeight(simpleBarOptions)),
+	},
 }));
 
 stories.add(simpleBarTimeSeriesOptions.title, () => ({
 	template: template("simple"),
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", simpleBarTimeSeriesData),
-		options: object("Options", addWidthAndHeight(simpleBarTimeSeriesOptions))
-	}
+		options: object("Options", addWidthAndHeight(simpleBarTimeSeriesOptions)),
+	},
 }));
 
 stories.add(groupedBarOptions.title, () => ({
 	template: template("grouped"),
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", groupedBarData),
-		options: object("Options", addWidthAndHeight(groupedBarOptions))
-	}
+		options: object("Options", addWidthAndHeight(groupedBarOptions)),
+	},
 }));
 
 stories.add(stackedBarOptions.title, () => ({
 	template: template("stacked"),
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", stackedBarData),
-		options: object("Options", addWidthAndHeight(stackedBarOptions))
-	}
+		options: object("Options", addWidthAndHeight(stackedBarOptions)),
+	},
 }));
 
 stories.add(stackedBarTimeSeriesOptions.title, () => ({
 	template: template("stacked"),
 	moduleMetadata: {
-		imports: [ChartsModule]
+		imports: [ChartsModule],
 	},
 	props: {
 		data: object("Data", stackedBarTimeSeriesData),
-		options: object("Options", addWidthAndHeight(stackedBarTimeSeriesOptions))
-	}
+		options: object("Options", addWidthAndHeight(stackedBarTimeSeriesOptions)),
+	},
 }));

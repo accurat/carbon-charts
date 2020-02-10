@@ -1,10 +1,7 @@
 // Internal Imports
 import { AxisChart } from "../axis-chart";
 import * as Configuration from "../configuration";
-import {
-	ChartConfig,
-	ScatterChartOptions
-} from "../interfaces/index";
+import { ChartConfig, ScatterChartOptions } from "../interfaces/index";
 import { Tools } from "../tools";
 
 // Components
@@ -17,7 +14,7 @@ import {
 	Tooltip,
 	Legend,
 	LayoutComponent,
-	TooltipScatter
+	TooltipScatter,
 } from "../components/index";
 
 export class ScatterChart extends AxisChart {
@@ -27,10 +24,7 @@ export class ScatterChart extends AxisChart {
 		// Merge the default options for this chart
 		// With the user provided options
 		this.model.setOptions(
-			Tools.merge(
-				Tools.clone(Configuration.options.scatterChart),
-				chartConfigs.options
-			)
+			Tools.merge(Tools.clone(Configuration.options.scatterChart), chartConfigs.options)
 		);
 
 		// Initialize data, services, components etc.
@@ -42,7 +36,7 @@ export class ScatterChart extends AxisChart {
 		const graphFrameComponents = [
 			new TwoDimensionalAxes(this.model, this.services),
 			new Grid(this.model, this.services),
-			new Scatter(this.model, this.services)
+			new Scatter(this.model, this.services),
 		];
 
 		const components: any[] = this.getAxisChartComponents(graphFrameComponents);

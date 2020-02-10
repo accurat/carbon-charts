@@ -9,7 +9,6 @@ import { select } from "d3-selection";
 // import the settings for the css prefix
 import settings from "carbon-components/src/globals/js/settings";
 
-
 export class Component {
 	public type: string;
 
@@ -30,21 +29,17 @@ export class Component {
 
 		// Set parent element to shell SVG if no parent exists for component
 		if (!this.parent) {
-			this.setParent(
-				select(this.services.domUtils.getMainSVG())
-			);
+			this.setParent(select(this.services.domUtils.getMainSVG()));
 		}
 	}
 
-	init() {
-	}
+	init() {}
 
 	render(animate = true) {
 		console.error("render() method is not implemented");
 	}
 
-	destroy() {
-	}
+	destroy() {}
 
 	// Used to pass down information to the components
 	setModel(newObj) {
@@ -81,7 +76,10 @@ export class Component {
 	getContainerSVG() {
 		if (this.type) {
 			const chartprefix = Tools.getProperty(this.model.getOptions(), "style", "prefix");
-			return DOMUtils.appendOrSelect(this.parent, `g.${settings.prefix}--${chartprefix}--${this.type}`);
+			return DOMUtils.appendOrSelect(
+				this.parent,
+				`g.${settings.prefix}--${chartprefix}--${this.type}`
+			);
 		}
 
 		return this.parent;

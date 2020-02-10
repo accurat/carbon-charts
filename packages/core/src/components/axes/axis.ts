@@ -35,7 +35,7 @@ export class Axis extends Component {
 
 		const svg = this.getContainerSVG();
 		const { width, height } = DOMUtils.getSVGElementSize(this.parent, {
-			useAttrs: true
+			useAttrs: true,
 		});
 
 		let startPosition, endPosition;
@@ -180,7 +180,7 @@ export class Axis extends Component {
 					break;
 				case AxisPositions.TOP:
 					const { height: titleHeight } = DOMUtils.getSVGElementSize(axisTitleRef, {
-						useBBox: true
+						useBBox: true,
 					});
 					axisTitleRef
 						.attr(
