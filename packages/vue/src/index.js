@@ -13,7 +13,7 @@ const components = [
 	CcvLineChart,
 	CcvScatterChart,
 	CcvDonutChart,
-	CcvPieChart
+	CcvPieChart,
 ];
 
 /*
@@ -55,5 +55,5 @@ export {
 	CcvLineChart,
 	CcvScatterChart,
 	CcvDonutChart,
-	CcvPieChart
+	CcvPieChart,
 };

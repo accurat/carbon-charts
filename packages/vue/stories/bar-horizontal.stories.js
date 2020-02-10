@@ -15,73 +15,93 @@ import {
 	stackedHorizontalBarTimeSeriesOptions,
 	stackedHorizontalBarTimeSeriesData,
 	stackedHorizontalBarOptions,
-	stackedHorizontalBarData
-} from "../../core/demo/demo-data/index";
+	stackedHorizontalBarData,
+} from '../../core/demo/demo-data/index';
 
-import { addWidthAndHeight } from "./commons";
+import { addWidthAndHeight } from './commons';
 
-const stories = storiesOf("Bar (Horizontal)", module).addDecorator(withKnobs);
+const stories = storiesOf('Bar (Horizontal)', module).addDecorator(withKnobs);
 stories.add(simpleHorizontalBarOptions.title, () => ({
 	components: { CcvSimpleBarChart },
 	props: {
 		data: {
-			default: object("Data", simpleHorizontalBarData)
+			default: object('Data', simpleHorizontalBarData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(simpleHorizontalBarOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(simpleHorizontalBarOptions)
+			),
+		},
 	},
-	template: '<ccv-simple-bar-chart :data="data" :options="options"></ccv-simple-bar-chart>'
+	template:
+		'<ccv-simple-bar-chart :data="data" :options="options"></ccv-simple-bar-chart>',
 }));
 
 stories.add(simpleHorizontalBarTimeSeriesOptions.title, () => ({
 	components: { CcvSimpleBarChart },
 	props: {
 		data: {
-			default: object("Data", simpleHorizontalBarTimeSeriesData)
+			default: object('Data', simpleHorizontalBarTimeSeriesData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(simpleHorizontalBarTimeSeriesOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(simpleHorizontalBarTimeSeriesOptions)
+			),
+		},
 	},
-	template: '<ccv-simple-bar-chart :data="data" :options="options"></ccv-simple-bar-chart>'
+	template:
+		'<ccv-simple-bar-chart :data="data" :options="options"></ccv-simple-bar-chart>',
 }));
 
 stories.add(groupedHorizontalBarOptions.title, () => ({
 	components: { CcvGroupedBarChart },
 	props: {
 		data: {
-			default: object("Data", groupedHorizontalBarData)
+			default: object('Data', groupedHorizontalBarData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(groupedHorizontalBarOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(groupedHorizontalBarOptions)
+			),
+		},
 	},
-	template: '<ccv-grouped-bar-chart :data="data" :options="options"></ccv-grouped-bar-chart>'
+	template:
+		'<ccv-grouped-bar-chart :data="data" :options="options"></ccv-grouped-bar-chart>',
 }));
 
 stories.add(stackedHorizontalBarOptions.title, () => ({
 	components: { CcvStackedBarChart },
 	props: {
 		data: {
-			default: object("Data", stackedHorizontalBarData)
+			default: object('Data', stackedHorizontalBarData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(stackedHorizontalBarOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(stackedHorizontalBarOptions)
+			),
+		},
 	},
-	template: '<ccv-stacked-bar-chart :data="data" :options="options"></ccv-stacked-bar-chart>'
+	template:
+		'<ccv-stacked-bar-chart :data="data" :options="options"></ccv-stacked-bar-chart>',
 }));
 
 stories.add(stackedHorizontalBarTimeSeriesOptions.title, () => ({
 	components: { CcvStackedBarChart },
 	props: {
 		data: {
-			default: object("Data", stackedHorizontalBarTimeSeriesData)
+			default: object('Data', stackedHorizontalBarTimeSeriesData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(stackedHorizontalBarTimeSeriesOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(stackedHorizontalBarTimeSeriesOptions)
+			),
+		},
 	},
-	template: '<ccv-stacked-bar-chart :data="data" :options="options"></ccv-stacked-bar-chart>'
+	template:
+		'<ccv-stacked-bar-chart :data="data" :options="options"></ccv-stacked-bar-chart>',
 }));

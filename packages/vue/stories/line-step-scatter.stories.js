@@ -18,93 +18,105 @@ import {
 	scatterTimeSeriesOptions,
 	scatterTimeSeriesData,
 	scatterOptions,
-	scatterData
-} from "../../core/demo/demo-data";
+	scatterData,
+} from '../../core/demo/demo-data';
 
-import { addWidthAndHeight } from "./commons";
+import { addWidthAndHeight } from './commons';
 
-const template = '<ccv-line-chart :data="data" :options="options"></ccv-line-chart>';
+const template =
+	'<ccv-line-chart :data="data" :options="options"></ccv-line-chart>';
 
-const lineStories = storiesOf("Line", module).addDecorator(withKnobs);
+const lineStories = storiesOf('Line', module).addDecorator(withKnobs);
 
 lineStories.add(lineOptions.title, () => ({
 	components: { CcvLineChart },
 	props: {
 		data: {
-			default: object("Data", lineData)
+			default: object('Data', lineData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(lineOptions))
-		}
+			default: object('Options', addWidthAndHeight(lineOptions)),
+		},
 	},
-	template
+	template,
 }));
 
 lineStories.add(lineTimeSeriesOptions.title, () => ({
 	components: { CcvLineChart },
 	props: {
 		data: {
-			default: object("Data", lineTimeSeriesData)
+			default: object('Data', lineTimeSeriesData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(lineTimeSeriesOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(lineTimeSeriesOptions)
+			),
+		},
 	},
-	template
+	template,
 }));
 
-const stepStories = storiesOf("Step", module).addDecorator(withKnobs);
+const stepStories = storiesOf('Step', module).addDecorator(withKnobs);
 
 stepStories.add(stepOptions.title, () => ({
 	components: { CcvLineChart },
 	props: {
 		data: {
-			default: object("Data", stepData)
+			default: object('Data', stepData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(stepOptions))
-		}
+			default: object('Options', addWidthAndHeight(stepOptions)),
+		},
 	},
-	template
+	template,
 }));
 
 stepStories.add(stepTimeSeriesOptions.title, () => ({
 	components: { CcvLineChart },
 	props: {
 		data: {
-			default: object("Data", stepTimeSeriesData)
+			default: object('Data', stepTimeSeriesData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(stepTimeSeriesOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(stepTimeSeriesOptions)
+			),
+		},
 	},
-	template
+	template,
 }));
 
-const scatterStories = storiesOf("Scatter", module).addDecorator(withKnobs);
+const scatterStories = storiesOf('Scatter', module).addDecorator(withKnobs);
 
 scatterStories.add(scatterOptions.title, () => ({
 	components: { CcvScatterChart },
 	props: {
 		data: {
-			default: object("Data", scatterData)
+			default: object('Data', scatterData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(scatterOptions))
-		}
+			default: object('Options', addWidthAndHeight(scatterOptions)),
+		},
 	},
-	template: '<ccv-scatter-chart :data="data" :options="options"></ccv-scatter-chart>'
+	template:
+		'<ccv-scatter-chart :data="data" :options="options"></ccv-scatter-chart>',
 }));
 
 scatterStories.add(scatterTimeSeriesOptions.title, () => ({
 	components: { CcvScatterChart },
 	props: {
 		data: {
-			default: object("Data", scatterTimeSeriesData)
+			default: object('Data', scatterTimeSeriesData),
 		},
 		options: {
-			default: object("Options", addWidthAndHeight(scatterTimeSeriesOptions))
-		}
+			default: object(
+				'Options',
+				addWidthAndHeight(scatterTimeSeriesOptions)
+			),
+		},
 	},
-	template: '<ccv-scatter-chart :data="data" :options="options"></ccv-scatter-chart>'
+	template:
+		'<ccv-scatter-chart :data="data" :options="options"></ccv-scatter-chart>',
 }));

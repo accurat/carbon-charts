@@ -1,11 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, object } from "@storybook/addon-knobs";
+import { withKnobs, object } from '@storybook/addon-knobs';
 
-import {
-	LineChart,
-	ScatterChart
-} from "../src/index";
+import { LineChart, ScatterChart } from '../src/index';
 
 import {
 	// Line
@@ -22,58 +19,58 @@ import {
 	scatterTimeSeriesOptions,
 	scatterTimeSeriesData,
 	scatterOptions,
-	scatterData
-} from "../../core/demo/demo-data/index";
+	scatterData,
+} from '../../core/demo/demo-data/index';
 
-import { addWidthAndHeight } from "./commons";
+import { addWidthAndHeight } from './commons';
 
-const lineStories = storiesOf("Line", module);
+const lineStories = storiesOf('Line', module);
 lineStories.addDecorator(withKnobs);
 
 lineStories.add(lineOptions.title, () => (
 	<LineChart
-		data={object("Data", lineData)}
-		options={object("Options", addWidthAndHeight(lineOptions))}
+		data={object('Data', lineData)}
+		options={object('Options', addWidthAndHeight(lineOptions))}
 	/>
 ));
 
 lineStories.add(lineTimeSeriesOptions.title, () => (
 	<LineChart
-		data={object("Data", lineTimeSeriesData)}
-		options={object("Options", addWidthAndHeight(lineTimeSeriesOptions))}
+		data={object('Data', lineTimeSeriesData)}
+		options={object('Options', addWidthAndHeight(lineTimeSeriesOptions))}
 	/>
 ));
 
-const stepStories = storiesOf("Step", module);
+const stepStories = storiesOf('Step', module);
 stepStories.addDecorator(withKnobs);
 
 stepStories.add(stepOptions.title, () => (
 	<LineChart
-		data={object("Data", stepData)}
-		options={object("Options", addWidthAndHeight(stepOptions))}
+		data={object('Data', stepData)}
+		options={object('Options', addWidthAndHeight(stepOptions))}
 	/>
 ));
 
 stepStories.add(stepTimeSeriesOptions.title, () => (
 	<LineChart
-		data={object("Data", stepTimeSeriesData)}
-		options={object("Options", addWidthAndHeight(stepTimeSeriesOptions))}
+		data={object('Data', stepTimeSeriesData)}
+		options={object('Options', addWidthAndHeight(stepTimeSeriesOptions))}
 	/>
 ));
 
-const scatterStories = storiesOf("Scatter", module);
+const scatterStories = storiesOf('Scatter', module);
 scatterStories.addDecorator(withKnobs);
 
 scatterStories.add(scatterOptions.title, () => (
 	<ScatterChart
-		data={object("Data", scatterData)}
-		options={object("Options", addWidthAndHeight(scatterOptions))}
+		data={object('Data', scatterData)}
+		options={object('Options', addWidthAndHeight(scatterOptions))}
 	/>
 ));
 
 scatterStories.add(scatterTimeSeriesOptions.title, () => (
 	<ScatterChart
-		data={object("Data", scatterTimeSeriesData)}
-		options={object("Options", addWidthAndHeight(scatterTimeSeriesOptions))}
+		data={object('Data', scatterTimeSeriesData)}
+		options={object('Options', addWidthAndHeight(scatterTimeSeriesOptions))}
 	/>
 ));

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default class BaseChart extends React.Component {
 	constructor(props) {
@@ -6,11 +6,11 @@ export default class BaseChart extends React.Component {
 
 		const { options, data } = props;
 		if (!options) {
-			console.error("Missing options!");
+			console.error('Missing options!');
 		}
 
 		if (!data) {
-			console.error("Missing data!");
+			console.error('Missing data!');
 		}
 
 		this.data = props.data || {};

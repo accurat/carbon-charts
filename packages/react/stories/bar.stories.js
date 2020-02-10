@@ -1,12 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, object } from "@storybook/addon-knobs";
+import { withKnobs, object } from '@storybook/addon-knobs';
 
-import {
-	SimpleBarChart,
-	GroupedBarChart,
-	StackedBarChart
-} from "../src/index";
+import { SimpleBarChart, GroupedBarChart, StackedBarChart } from '../src/index';
 
 import {
 	// Bar
@@ -20,43 +16,43 @@ import {
 	stackedBarOptions,
 	stackedBarTimeSeriesOptions,
 	stackedBarTimeSeriesData,
-} from "../../core/demo/demo-data/index";
+} from '../../core/demo/demo-data/index';
 
-import { addWidthAndHeight } from "./commons";
+import { addWidthAndHeight } from './commons';
 
-const barStories = storiesOf("Bar", module);
+const barStories = storiesOf('Bar', module);
 barStories.addDecorator(withKnobs);
 barStories.add(simpleBarOptions.title, () => (
 	<SimpleBarChart
-		data={object("Data", simpleBarData)}
-		options={object("Options", addWidthAndHeight(simpleBarOptions))}
+		data={object('Data', simpleBarData)}
+		options={object('Options', addWidthAndHeight(simpleBarOptions))}
 	/>
 ));
 
 barStories.add(groupedBarOptions.title, () => (
 	<GroupedBarChart
-		data={object("Data", groupedBarData)}
-		options={object("Options", addWidthAndHeight(groupedBarOptions))}
+		data={object('Data', groupedBarData)}
+		options={object('Options', addWidthAndHeight(groupedBarOptions))}
 	/>
 ));
 
 barStories.add(simpleBarTimeSeriesOptions.title, () => (
 	<SimpleBarChart
-		data={object("Data", simpleBarTimeSeriesData)}
-		options={object("Options", addWidthAndHeight(simpleBarTimeSeriesOptions))}
+		data={object('Data', simpleBarTimeSeriesData)}
+		options={object('Options', addWidthAndHeight(simpleBarTimeSeriesOptions))}
 	/>
 ));
 
 barStories.add(stackedBarOptions.title, () => (
 	<StackedBarChart
-		data={object("Data", stackedBarData)}
-		options={object("Options", addWidthAndHeight(stackedBarOptions))}
+		data={object('Data', stackedBarData)}
+		options={object('Options', addWidthAndHeight(stackedBarOptions))}
 	/>
 ));
 
 barStories.add(stackedBarTimeSeriesOptions.title, () => (
 	<StackedBarChart
-		data={object("Data", stackedBarTimeSeriesData)}
-		options={object("Options", addWidthAndHeight(stackedBarTimeSeriesOptions))}
+		data={object('Data', stackedBarTimeSeriesData)}
+		options={object('Options', addWidthAndHeight(stackedBarTimeSeriesOptions))}
 	/>
 ));
