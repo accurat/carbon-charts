@@ -5,7 +5,7 @@ import { DOMUtils } from "../../services";
 
 // D3 Imports
 import { axisBottom, axisLeft } from "d3-axis";
-import { mouse, select } from "d3-selection";
+import { mouse, select, event } from "d3-selection";
 import { TooltipTypes } from "../../interfaces";
 
 export class Grid extends Component {
@@ -140,6 +140,71 @@ export class Grid extends Component {
 		return gridlinesX;
 	}
 
+	showRuler([x, y]: [number, number]) {
+		const height = Number(this.backdrop.attr("height"));
+		const svg = this.parent;
+		const line = DOMUtils.appendOrSelect(svg, "line.ruler");
+
+		const data = Array.prototype.concat(
+			...this.model.getData().datasets.map(dataset => dataset.data.map(d => d.date))
+		);
+		const scale = this.services.cartesianScales.getMainXScale();
+		const dataPoints = data.map(d => Number(scale(d)));
+
+		const values = dataPoints.filter(d => d > x - 3 && d < x + 3);
+		const highlightItems = values.map(v =>
+			this.services.cartesianScales.getDataFromDomain(scale.invert(v))
+		)[0];
+
+		if (highlightItems && highlightItems.length > 0) {
+			this.services.events.dispatchEvent("show-tooltip", {
+				hoveredElement: line,
+				multidata: highlightItems,
+				type: TooltipTypes.GRIDLINE
+			});
+		}
+		line.attr("y1", 0)
+			.attr("y2", height)
+			.attr("x1", x)
+			.attr("x2", x);
+
+		// if scale can't be inverted don't show axis tooltip
+		if (!scale.invert) {
+			return;
+		}
+
+		// append axis tooltip
+		const axisTooltipValue = `${scale.invert(x)}`.substring(0, 10);
+		const axisTooltip = DOMUtils.appendOrSelect(svg, "g.axis-tooltip").attr("opacity", 1);
+		const axisTooltipWidth = 70;
+		const axisTooltipHeight = 20;
+		const axisTooltipOffset = 5;
+
+		DOMUtils.appendOrSelect(axisTooltip, "rect.axis-tooltip-box")
+			.attr("x", x - axisTooltipWidth / 2)
+			.attr("y", height + axisTooltipOffset)
+			.attr("width", axisTooltipWidth)
+			.attr("height", axisTooltipHeight);
+
+		DOMUtils.appendOrSelect(axisTooltip, "text.axis-tooltip-text")
+			.attr("x", x)
+			.attr("y", height + axisTooltipOffset + axisTooltipHeight / 2)
+			.text(axisTooltipValue);
+	}
+
+	hideRuler() {
+		const svg = this.parent;
+		const line = DOMUtils.appendOrSelect(svg, "line.ruler");
+		const axisTooltip = DOMUtils.appendOrSelect(svg, "g.axis-tooltip");
+
+		line.attr("y1", null)
+			.attr("y2", null)
+			.attr("x1", null)
+			.attr("x2", null);
+
+		axisTooltip.attr("opacity", 0);
+	}
+
 	/**
 	 * Adds the listener on the X grid to trigger multiple point tooltips along the x axis.
 	 */
@@ -161,8 +226,11 @@ export class Grid extends Component {
 			const activeGridline = self.getActiveGridline(pos);
 			if (activeGridline.empty()) {
 				self.services.events.dispatchEvent("hide-tooltip", {});
+				self.showRuler(pos);
 				return;
 			}
+
+			self.hideRuler();
 
 			// set active class to control dasharray and theme colors
 			activeGridline
@@ -186,6 +254,7 @@ export class Grid extends Component {
 			svg.selectAll(".x.grid .tick")
 			.classed("active", false);
 
+			self.hideRuler();
 			self.services.events.dispatchEvent("hide-tooltip", {});
 		});
 	}
