@@ -15,6 +15,7 @@ import {
 	Cancelable,
 	DebounceSettings
 } from "lodash-es";
+import { Numeric } from "d3";
 
 // Functions
 export namespace Tools {
@@ -277,4 +278,6 @@ export namespace Tools {
 
 		return `M${x0},${y0}L${x0},${y1}L${x1},${y1}L${x1},${y0}L${x0},${y0}`;
 	};
+
+	export const compareNumeric = (a: Numeric, b: Numeric) => Number(a) === Number(b);
 }
