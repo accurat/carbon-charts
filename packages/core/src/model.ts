@@ -82,7 +82,7 @@ export class ChartModel {
 	}
 
 	getDisplayData() {
-		if (!this.get("data")) {
+		if (!this.getData()) {
 			return null;
 		}
 
@@ -90,7 +90,7 @@ export class ChartModel {
 		const dataGroups = this.getDataGroups();
 
 		// Remove datasets that have been disabled
-		const displayData = Tools.clone(this.get("data"));
+		const displayData = Tools.clone(this.getData());
 		const { groupIdentifier } = this.getOptions().data;
 
 		return displayData.filter(datum => {

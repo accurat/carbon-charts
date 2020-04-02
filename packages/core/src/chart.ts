@@ -63,6 +63,8 @@ export class Chart {
 				this.update(false);
 			});
 
+		this.updateServices();
+
 		this.components = this.getComponents();
 
 		this.update();
@@ -74,18 +76,13 @@ export class Chart {
 		return null;
 	}
 
-
-
 	update(animate = true) {
 		if (!this.components) {
 			return;
 		}
 
 		// Update all services
-		Object.keys(this.services).forEach(serviceName => {
-			const serviceObj = this.services[serviceName];
-			serviceObj.update();
-		});
+		this.updateServices();
 
 		// Render all components
 		this.components.forEach(component => component.render(animate));
@@ -116,6 +113,13 @@ export class Chart {
 		this.model.set({ destroyed: true }, true);
 	}
 
+	protected updateServices() {
+		// Update all services
+		Object.keys(this.services).forEach(serviceName => {
+			const serviceObj = this.services[serviceName];
+			serviceObj.update();
+		});
+	}
 
 	protected getChartComponents(graphFrameComponents: any[]) {
 		const titleComponent = {
