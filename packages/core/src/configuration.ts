@@ -7,6 +7,7 @@ import {
 	BarChartOptions,
 	StackedBarChartOptions,
 	PieChartOptions,
+	GaugeChartOptions,
 	DonutChartOptions,
 	BubbleChartOptions,
 	// Components
@@ -258,6 +259,23 @@ const pieChart: PieChartOptions = Tools.merge({}, chart, {
 } as PieChartOptions);
 
 /**
+ * options specific to gauge charts
+ */
+const gaugeChart: GaugeChartOptions = Tools.merge({}, pieChart, {
+	gauge: {
+		center: {
+			numberFontSize: radius => Math.min((radius / 100) * 24, 24) + "px",
+			titleFontSize: radius => Math.min((radius / 100) * 15, 15) + "px",
+			titleYPosition: radius => Math.min((radius / 80) * 20, 20),
+			numberFormatter: number => Math.floor(number).toLocaleString()
+		},
+		direction: "clockwise",
+		startAngle: 0,
+		gaugeAngularSize: 2 * Math.PI
+	}
+} as GaugeChartOptions);
+
+/**
  * options specific to donut charts
  */
 const donutChart: DonutChartOptions = Tools.merge({}, pieChart, {
@@ -281,6 +299,7 @@ export const options = {
 	lineChart,
 	scatterChart,
 	pieChart,
+	gaugeChart,
 	donutChart
 };
 

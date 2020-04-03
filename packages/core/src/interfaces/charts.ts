@@ -164,6 +164,22 @@ export interface PieChartOptions extends BaseChartOptions {
 	};
 }
 
+/**
+ * options specific to gauge charts
+ */
+export interface GaugeChartOptions extends PieChartOptions {
+	gauge?: {
+		center?: {
+			numberFontSize?: Function;
+			titleFontSize?: Function;
+			titleYPosition?: Function;
+			numberFormatter?: Function;
+		};
+		gaugeAngularSize?: number
+		startAngle?: number
+		direction?: "clockwise" | "counterclockwise"
+	};
+}
 
 
 /**
