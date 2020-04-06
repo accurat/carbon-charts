@@ -80,8 +80,9 @@ export class Gauge extends Component {
 
 	getArcSize(): number {
 		const options = this.model.getOptions();
-		const {arcRatio = 1} = options.gauge;
-		return arcRatio * Math.PI * 2;
+		const { arcRatio = 1 } = options.gauge;
+		const clampedArcRatio = clamp(arcRatio, 0, 1);
+		return clampedArcRatio * Math.PI * 2;
 	}
 
 	getStartAngle(): number {
