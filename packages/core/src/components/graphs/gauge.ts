@@ -1,7 +1,7 @@
 // Internal Imports
 import { Component } from "../component";
 import { DOMUtils } from "../../services";
-import { clamp } from "lodash-es"
+import { clamp, groupBy } from "lodash-es";
 import {
 	Roles,
 	TooltipTypes,
@@ -27,22 +27,26 @@ export class Gauge extends Component {
 		const eventsFragment = this.services.events;
 
 		// Highlight correct circle on legend item hovers
-		eventsFragment.addEventListener(Events.Legend.ITEM_HOVER, this.handleLegendOnHover);
+		eventsFragment.addEventListener("legend-item-onhover", this.handleLegendOnHover);
 
 		// Un-highlight circles on legend item mouseouts
-		eventsFragment.addEventListener(Events.Legend.ITEM_MOUSEOUT, this.handleLegendMouseOut);
+		eventsFragment.addEventListener("legend-item-onmouseout", this.handleLegendMouseOut);
 	}
 
 	getDataList() {
 		const displayData = this.model.getDisplayData();
-		const dataset = displayData.datasets[0];
-		return dataset.data.map((datum, i) => ({
-			label: displayData.labels[i],
-			current: datum.current,
-			total: datum.total,
-			value: datum.current,
-			old: datum.old,
-		}));
+		const current = displayData.find(d => d.key === "current");
+		const old = displayData.find(d => d.key === "old");
+		const total = displayData.find(d => d.key === "total");
+		return [
+			{
+				label: "Dataset",
+				current: current ? current.value : 0,
+				total: total ? total.value : 0,
+				old: old ? old.value : 0,
+				value: current ? current.value : 0
+			}
+		];
 	}
 
 	getCurrentRatio(): number {
@@ -62,6 +66,7 @@ export class Gauge extends Component {
 
 	getTotal(): number {
 		const datalist = this.getDataList();
+		console.log('datalist', datalist)
 		const value = datalist[0].total || 0;
 		return value;
 	}
@@ -240,7 +245,7 @@ export class Gauge extends Component {
 				});
 
 				// Show tooltip
-				self.services.events.dispatchEvent(Events.Tooltip.SHOW, {
+				self.services.events.dispatchEvent("show-tooltip", {
 					hoveredElement,
 					type: TooltipTypes.DATAPOINT
 				});
@@ -265,7 +270,7 @@ export class Gauge extends Component {
 				});
 
 				// Hide tooltip
-				self.services.events.dispatchEvent(Events.Tooltip.HIDE, { hoveredElement });
+				self.services.events.dispatchEvent("hide-tooltip", { hoveredElement });
 			});
 	}
 

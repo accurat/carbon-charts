@@ -3,7 +3,7 @@ import { PieChart } from "./pie";
 import * as Configuration from "../configuration";
 import {
 	ChartConfig,
-	PieChartOptions
+	GaugeChartOptions
 } from "../interfaces/index";
 import { Tools } from "../tools";
 
@@ -17,7 +17,7 @@ import {
 } from "../components/index";
 
 export class GaugeChart extends PieChart {
-	constructor(holder: Element, chartConfigs: ChartConfig<PieChartOptions>) {
+	constructor(holder: Element, chartConfigs: ChartConfig<GaugeChartOptions>) {
 		super(holder, chartConfigs, true);
 
 		// Merge the default options for this chart
