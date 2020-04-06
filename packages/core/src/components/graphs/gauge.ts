@@ -1,9 +1,8 @@
 // Internal Imports
 import { Component } from "../component";
 import { DOMUtils } from "../../services";
-import { Tools } from "../../tools";
+import { clamp } from "lodash-es"
 import {
-	CalloutDirections,
 	Roles,
 	TooltipTypes,
 	Events
@@ -11,18 +10,8 @@ import {
 
 // D3 Imports
 import { select } from "d3-selection";
-import { arc, pie } from "d3-shape";
-import { interpolate, interpolateNumber } from "d3-interpolate";
-
-// Pie slice tween function
-function arcTween(a, arcFunc) {
-	const i = interpolate(this._current, a);
-
-	return t => {
-		this._current = i(t);
-		return arcFunc(this._current);
-	};
-}
+import { arc } from "d3-shape";
+import { interpolateNumber } from "d3-interpolate";
 
 export class Gauge extends Component {
 	type = "gauge";
@@ -32,6 +21,7 @@ export class Gauge extends Component {
 	// Can access them
 	arc: any;
 	hoverArc: any;
+	backgroundArc: any;
 
 	init() {
 		const eventsFragment = this.services.events;
@@ -48,169 +38,141 @@ export class Gauge extends Component {
 		const dataset = displayData.datasets[0];
 		return dataset.data.map((datum, i) => ({
 			label: displayData.labels[i],
-			value: datum.value ? datum.value : datum
+			current: datum.current,
+			total: datum.total,
+			value: datum.current,
+			old: datum.old,
 		}));
+	}
+
+	getCurrentRatio(): number {
+		const total = this.getTotal();
+		const current = this.getCurrent();
+		const ratio = total === 0 ? 0 : current / total;
+		return clamp(ratio, 0, 1);
+	}
+
+	getDelta(): number {
+		const current = this.getCurrent();
+		const old = this.getOld();
+		const delta = current - old;
+		const ratio = old === 0 ? Infinity : delta / old;
+		return clamp(ratio, -1, Infinity);
+	}
+
+	getTotal(): number {
+		const datalist = this.getDataList();
+		const value = datalist[0].total || 0;
+		return value;
+	}
+
+	getCurrent(): number {
+		const datalist = this.getDataList();
+		const value = datalist[0].current || 0;
+		return value;
+	}
+
+	getOld(): number {
+		const datalist = this.getDataList();
+		const value = datalist[0].old || 0;
+		return value;
+	}
+
+	getArcSize(): number {
+		const options = this.model.getOptions();
+		const {arcRatio = 1} = options.gauge;
+		return arcRatio * Math.PI * 2;
+	}
+
+	getStartAngle(): number {
+		const arcSize = this.getArcSize();
+		if (arcSize === 2 * Math.PI) {
+			return 0;
+		}
+		return -arcSize / 2;
 	}
 
 	render(animate = true) {
 		const self = this;
 		const svg = this.getContainerSVG();
 		const options = this.model.getOptions();
-		const dataList = this.getDataList();
+		const ratio = this.getCurrentRatio();
+		const datalist = this.getDataList();
+		const delta = this.getDelta();
+		const arcSize = this.getArcSize();
+		const startAngle = this.getStartAngle();
+		const rotationAngle = ratio * arcSize;
+		const currentAngle = startAngle + rotationAngle;
+		const endAngle = startAngle + arcSize;
 
 		// Compute the outer radius needed
 		const radius = this.computeRadius();
 
+		this.backgroundArc = arc()
+			.innerRadius(this.getInnerRadius())
+			.outerRadius(radius)
+			.startAngle(currentAngle)
+			.endAngle(endAngle);
+
 		this.arc = arc()
 			.innerRadius(this.getInnerRadius())
-			.outerRadius(radius);
+			.outerRadius(radius)
+			.startAngle(startAngle)
+			.endAngle(currentAngle);
 
 		// Set the hover arc radius
 		this.hoverArc = arc()
 			.innerRadius(this.getInnerRadius())
-			.outerRadius(radius + options.pie.hoverArc.outerRadiusOffset);
+			.outerRadius(radius + options.pie.hoverArc.outerRadiusOffset)
+			.startAngle(startAngle)
+			.endAngle(currentAngle);
 
-		// Setup the pie layout
-		const pieLayout = pie()
-			.value((d: any) => d.value)
-			.sort(null)
-			.padAngle(options.pie.padAngle);
+		// Add background arc
 
-		// Sort pie layout data based off of the indecies the layout creates
-		const pieLayoutData = pieLayout(dataList)
-			.sort((a: any, b: any) => a.index - b.index);
-
-		// Update data on all slices
-		const slicesGroup = DOMUtils.appendOrSelect(svg, "g.slices")
-			.attr("role", Roles.GROUP);
-		const paths = slicesGroup.selectAll("path.slice")
-			.data(pieLayoutData, d => d.data.label);
-
-		// Remove slices that need to be exited
-		paths.exit()
-			.attr("opacity", 0)
-			.remove();
-
-		// Add new slices that are being introduced
-		const enteringPaths = paths.enter()
+		DOMUtils.appendOrSelect(svg, "g.background")
 			.append("path")
-			.classed("slice", true)
-			.attr("opacity", 0);
+			.attr("d", this.backgroundArc)
+			.attr("fill", "#bbb")
+			.attr("role", Roles.GROUP);
 
-		// Update styles & position on existing and entering slices
-		enteringPaths.merge(paths)
-			.attr("fill", d => this.model.getFillScale()(d.data.label))
+		// Add data arc
+
+		DOMUtils.appendOrSelect(svg, "g.arc")
+			.append("path")
+			.data(datalist)
 			.attr("d", this.arc)
-			.transition(this.services.transitions.getTransition("pie-slice-enter-update", animate))
-			.attr("opacity", 1)
-			// a11y
-			.attr("role", Roles.GRAPHICS_SYMBOL)
-			.attr("aria-roledescription", "slice")
-			.attr("aria-label", d => `${d.value}, ${Tools.convertValueToPercentage(d.data.value, dataList) + "%"}`)
-			// Tween
-			.attrTween("d", function (a) {
-				return arcTween.bind(this)(a, self.arc);
-			});
-
-		// Draw the slice labels
-		const labelsGroup = DOMUtils.appendOrSelect(svg, "g.labels").attr("role", Roles.GROUP);
-		const labels = labelsGroup.selectAll("text.pie-label")
-			.data(pieLayoutData, (d: any) => d.data.label);
-
-		// Remove labels that are existing
-		labels.exit()
-			.attr("opacity", 0)
-			.remove();
-
-		// Add labels that are being introduced
-		const enteringLabels = labels.enter()
-			.append("text")
-			.classed("pie-label", true);
-
-		// Update styles & position on existing & entering labels
-		const calloutData = [];
-		enteringLabels.merge(labels)
-			.style("text-anchor", "middle")
-			.text(d => {
-				if (options.pie.labels.formatter) {
-					return options.pie.labels.formatter(d);
-				}
-
-				return Tools.convertValueToPercentage(d.data.value, dataList) + "%";
-			})
-			// Calculate dimensions in order to transform
-			.datum(function (d) {
-				const textLength = this.getComputedTextLength();
-				d.textOffsetX = textLength / 2;
-				d.textOffsetY = parseFloat(getComputedStyle(this).fontSize) / 2;
-
-				const marginedRadius = radius + 7;
-
-				const theta = ((d.endAngle - d.startAngle) / 2) + d.startAngle;
-
-				d.xPosition = (d.textOffsetX + marginedRadius) * Math.sin(theta);
-				d.yPosition = (d.textOffsetY + marginedRadius) * -Math.cos(theta);
-
-				return d;
-			})
-			.attr("transform", function (d, i) {
-				const totalSlices = dataList.length;
-				const sliceAngleDeg = (d.endAngle - d.startAngle) * (180 / Math.PI);
-
-				// check if last 2 slices (or just last) are < the threshold
-				if (i >= totalSlices - 2) {
-					if (sliceAngleDeg < options.pie.callout.minSliceDegree) {
-						let labelTranslateX, labelTranslateY;
-						if (d.index === totalSlices - 1) {
-							labelTranslateX = d.xPosition + options.pie.callout.offsetX + options.pie.callout.textMargin + d.textOffsetX;
-							labelTranslateY = d.yPosition - options.pie.callout.offsetY;
-
-							// Set direction of callout
-							d.direction = CalloutDirections.RIGHT;
-							calloutData.push(d);
-						} else {
-							labelTranslateX = d.xPosition - options.pie.callout.offsetX - d.textOffsetX - options.pie.callout.textMargin;
-							labelTranslateY = d.yPosition - options.pie.callout.offsetY;
-
-							// Set direction of callout
-							d.direction = CalloutDirections.LEFT;
-							calloutData.push(d);
-						}
-
-						return `translate(${labelTranslateX}, ${labelTranslateY})`;
-					}
-				}
-
-				return `translate(${d.xPosition}, ${d.yPosition})`;
-			});
-
-		// Render pie label callouts
-		this.renderCallouts(calloutData);
+			.classed("arc", true)
+			.attr("fill", "#00f");
 
 		// Position Pie
-		const pieTranslateX = radius + options.pie.xOffset;
-		let pieTranslateY = radius + options.pie.yOffset;
-		if (calloutData.length > 0) {
-			pieTranslateY += options.pie.yOffsetCallout;
-		}
-		svg.attr("transform", `translate(${pieTranslateX}, ${pieTranslateY})`);
+		const gaugeTranslateX = radius + options.pie.xOffset;
+		const gaugeTranslateY = radius + options.pie.yOffset;
+		svg.attr("transform", `translate(${gaugeTranslateX}, ${gaugeTranslateY})`);
 
-		// Add the number shown in the center of the donut
-		DOMUtils.appendOrSelect(svg, "text.donut-figure")
+		// Add the number shown in the center of the gauge and the delta
+		// under it.
+
+		DOMUtils.appendOrSelect(svg, "text.gauge-value")
 			.attr("text-anchor", "middle")
-			.style("font-size", () => options.gauge.center.numberFontSize(radius))
+			.attr("alignment-baseline", "middle")
+			.style("font-size", () => options.gauge.center.valueFontSize(radius, arcSize))
 			.transition(this.services.transitions.getTransition("donut-figure-enter-update", animate))
-			.tween("text", function () {
-				return self.centerNumberTween(select(this));
+			.attr("y", options.gauge.center.valueYPosition(radius, arcSize))
+			.tween("text", function() {
+				return self.centerNumberTween(select(this), ratio * 100);
 			});
 
-		// Add the label below the number in the center of the donut
-		DOMUtils.appendOrSelect(svg, "text.donut-title")
+		DOMUtils.appendOrSelect(svg, "text.gauge-delta")
 			.attr("text-anchor", "middle")
-			.style("font-size", () => options.gauge.center.titleFontSize(radius))
-			.attr("y", options.gauge.center.titleYPosition(radius))
-			.text(Tools.getProperty(options, "donut", "center", "label"));
-
+			.attr("alignment-baseline", "middle")
+			.style("font-size", () => options.gauge.center.deltaFontSize(radius, arcSize))
+			.attr("y", options.gauge.center.deltaYPosition(radius, arcSize))
+			.text(() => {
+				const sign = Math.sign(delta)
+				const deltaPerc = (delta * 100).toFixed(2);
+				const arrow = sign === 0 ? "=" : sign === -1 ? "▼" : "▲";
+				return `${arrow}  ${deltaPerc}%`;
+			});
 
 		// Add event listeners
 		this.addEventListeners();
@@ -220,140 +182,45 @@ export class Gauge extends Component {
 	getInnerRadius() {
 		// Compute the outer radius needed
 		const radius = this.computeRadius();
-
 		return radius * (3 / 4);
 	}
 
-	centerNumberTween(d3Ref) {
+	centerNumberTween(d3Ref, value: number) {
 		const options = this.model.getOptions();
-
-		let donutCenterFigure = Tools.getProperty(options, "donut", "center", "number");
-		if (!donutCenterFigure) {
-			donutCenterFigure = this.getDataList().reduce((accumulator, d) => {
-				return accumulator + d.value;
-			}, 0);
-		}
-
 		// Remove commas from the current value string, and convert to an int
 		const currentValue = parseInt(d3Ref.text().replace(/[, ]+/g, ""), 10) || 0;
-		const i = interpolateNumber(currentValue, donutCenterFigure);
+		const i = interpolateNumber(currentValue, value);
 
 		return t => {
 			const { numberFormatter } = options.gauge.center;
-			d3Ref.text(numberFormatter(i(t)));
+			const number = i(t);
+			const formattedNumber = numberFormatter(number);
+			return d3Ref.text(formattedNumber);
 		};
-	}
-
-	renderCallouts(calloutData: any[]) {
-		const svg = DOMUtils.appendOrSelect(this.getContainerSVG(), "g.callouts")
-			.attr("role", Roles.GROUP);
-		const options = this.model.getOptions();
-
-		// Update data on callouts
-		const callouts = svg.selectAll("g.callout")
-			.data(calloutData);
-
-		callouts.exit().remove();
-
-		const enteringCallouts = callouts.enter()
-			.append("g")
-			.classed("callout", true)
-			// a11y
-			.attr("role", `${Roles.GRAPHICS_SYMBOL} ${Roles.GROUP}`)
-			.attr("aria-roledescription", "label callout");
-
-		// Update data values for each callout
-		// For the horizontal and vertical lines to use
-		enteringCallouts.merge(callouts)
-			.datum(function (d) {
-				const { xPosition, yPosition, direction } = d;
-
-				if (direction === CalloutDirections.RIGHT) {
-					d.startPos = {
-						x: xPosition,
-						y: yPosition + d.textOffsetY
-					};
-
-					// end position for the callout line
-					d.endPos = {
-						x: xPosition + options.pie.callout.offsetX,
-						y: yPosition - options.pie.callout.offsetY + d.textOffsetY
-					};
-
-					// the intersection point of the vertical and horizontal line
-					d.intersectPointX = d.endPos.x - options.pie.callout.horizontalLineLength;
-				} else {
-					// start position for the callout line
-					d.startPos = {
-						x: xPosition,
-						y: yPosition + d.textOffsetY
-					};
-
-					// end position for the callout line should be bottom aligned to the title
-					d.endPos = {
-						x: xPosition - options.pie.callout.offsetX,
-						y: yPosition - options.pie.callout.offsetY + d.textOffsetY
-					};
-
-					// the intersection point of the vertical and horizontal line
-					d.intersectPointX = d.endPos.x + options.pie.callout.horizontalLineLength;
-				}
-
-				// Store the necessary data in the DOM element
-				return d;
-			});
-
-		// draw vertical line
-		const enteringVerticalLines = enteringCallouts.append("line")
-			.classed("vertical-line", true);
-
-		enteringVerticalLines.merge(svg.selectAll("line.vertical-line"))
-			.datum(function (d: any) {
-				return select(this.parentNode).datum();
-			})
-			.style("stroke-width", "1px")
-			.attr("x1", d => d.startPos.x)
-			.attr("y1", d => d.startPos.y)
-			.attr("x2", d => d.intersectPointX)
-			.attr("y2", d => d.endPos.y);
-
-		// draw horizontal line
-		const enteringHorizontalLines = enteringCallouts.append("line")
-			.classed("horizontal-line", true);
-
-		enteringHorizontalLines.merge(callouts.selectAll("line.horizontal-line"))
-			.datum(function (d: any) {
-				return select(this.parentNode).datum();
-			})
-			.style("stroke-width", "1px")
-			.attr("x1", d => d.intersectPointX)
-			.attr("y1", d => d.endPos.y)
-			.attr("x2", d => d.endPos.x)
-			.attr("y2", d => d.endPos.y);
 	}
 
 	// Highlight elements that match the hovered legend item
 	handleLegendOnHover = (event: CustomEvent) => {
 		const { hoveredElement } = event.detail;
 
-		this.parent.selectAll("path.slice")
+		this.parent.selectAll("path.arc")
 			.transition(this.services.transitions.getTransition("legend-hover-bar"))
 			.attr("opacity", d => (d.data.label !== hoveredElement.datum()["key"]) ? 0.3 : 1);
 	}
 
 	// Un-highlight all elements
 	handleLegendMouseOut = (event: CustomEvent) => {
-		this.parent.selectAll("path.slice")
+		this.parent.selectAll("path.arc")
 			.transition(this.services.transitions.getTransition("legend-mouseout-bar"))
 			.attr("opacity", 1);
 	}
 
 	addEventListeners() {
 		const self = this;
-		this.parent.selectAll("path.slice")
+		this.parent.selectAll("path.arc")
 			.on("mouseover", function (datum) {
 				// Dispatch mouse event
-				self.services.events.dispatchEvent(Events.Pie.SLICE_MOUSEOVER, {
+				self.services.events.dispatchEvent(Events.Gauge.ARC_MOUSEOVER, {
 					element: select(this),
 					datum
 				});
@@ -366,7 +233,7 @@ export class Gauge extends Component {
 					.attr("d", self.hoverArc);
 
 				// Dispatch mouse event
-				self.services.events.dispatchEvent(Events.Pie.SLICE_MOUSEMOVE, {
+				self.services.events.dispatchEvent(Events.Gauge.ARC_MOUSEMOVE, {
 					element: hoveredElement,
 					datum
 				});
@@ -379,7 +246,7 @@ export class Gauge extends Component {
 			})
 			.on("click", function (datum) {
 				// Dispatch mouse event
-				self.services.events.dispatchEvent(Events.Pie.SLICE_CLICK, {
+				self.services.events.dispatchEvent(Events.Gauge.ARC_CLICK, {
 					element: select(this),
 					datum
 				});
@@ -391,7 +258,7 @@ export class Gauge extends Component {
 					.attr("d", self.arc);
 
 				// Dispatch mouse event
-				self.services.events.dispatchEvent(Events.Pie.SLICE_MOUSEOUT, {
+				self.services.events.dispatchEvent(Events.Gauge.ARC_MOUSEOUT, {
 					element: hoveredElement,
 					datum
 				});
@@ -403,10 +270,12 @@ export class Gauge extends Component {
 
 	// Helper functions
 	protected computeRadius() {
+		const arcSize = this.getArcSize();
 		const options = this.model.getOptions();
+		const multiplier = Math.min(Math.PI / arcSize, 1);
 
 		const { width, height } = DOMUtils.getSVGElementSize(this.parent, { useAttrs: true });
-		const radius: number = Math.min(width, height) / 2;
+		const radius: number = Math.min(width, height) * multiplier;
 
 		return radius + options.pie.radiusOffset;
 	}

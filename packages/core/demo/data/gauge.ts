@@ -1,14 +1,21 @@
 export const gaugeData = {
-	labels: ["value", "total", "oldValue"],
+	labels: ["value"],
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [75, 200, 90]
+			data: [{
+				current: 85,
+				old: 100,
+				total: 200
+			}]
 		}
 	]
 };
 
 export const gaugeOptions = {
 	title: "Gauge",
-	resizable: true
+	resizable: true,
+	gauge: {
+		arcRatio: 0.5
+	}
 };

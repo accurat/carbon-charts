@@ -170,14 +170,14 @@ export interface PieChartOptions extends BaseChartOptions {
 export interface GaugeChartOptions extends PieChartOptions {
 	gauge?: {
 		center?: {
-			numberFontSize?: Function;
+			valueFontSize?: Function;
+			deltaFontSize?: Function;
 			titleFontSize?: Function;
-			titleYPosition?: Function;
+			deltaYPosition?: Function;
+			valueYPosition?: Function;
 			numberFormatter?: Function;
 		};
-		gaugeAngularSize?: number
-		startAngle?: number
-		direction?: "clockwise" | "counterclockwise"
+		arcRatio?: number
 	};
 }
 

@@ -23,6 +23,7 @@ import {
 } from "./interfaces";
 import enUSLocaleObject from "date-fns/locale/en-US/index";
 
+
 /*
  *****************************
  * User configurable options *
@@ -261,17 +262,31 @@ const pieChart: PieChartOptions = Tools.merge({}, chart, {
 /**
  * options specific to gauge charts
  */
+
+function getGaugeFontSize(radius: number, arcSize: number, maxSize: number) {
+	const adjustedRadius = (radius * Math.PI / arcSize) / 100;
+	return Tools.interpolateAndClamp(adjustedRadius, maxSize);
+}
+
 const gaugeChart: GaugeChartOptions = Tools.merge({}, pieChart, {
 	gauge: {
 		center: {
-			numberFontSize: radius => Math.min((radius / 100) * 24, 24) + "px",
-			titleFontSize: radius => Math.min((radius / 100) * 15, 15) + "px",
-			titleYPosition: radius => Math.min((radius / 80) * 20, 20),
-			numberFormatter: number => Math.floor(number).toLocaleString()
-		},
-		direction: "clockwise",
-		startAngle: 0,
-		gaugeAngularSize: 2 * Math.PI
+			valueFontSize: (radius, arcSize) => getGaugeFontSize(radius, arcSize, 48) + "px",
+			deltaFontSize: (radius, arcSize) => getGaugeFontSize(radius, arcSize, 24) + "px",
+			titleFontSize: radius => Tools.interpolateAndClamp((radius / 100), 15) + "px",
+			valueYPosition: (radius, arcSize) => {
+				const deltaYPosition = ((arcSize - 2 * Math.PI) / Math.PI) * getGaugeFontSize(radius, arcSize, 24);
+				const valueYPosition = ((arcSize - 2 * Math.PI) / Math.PI) * getGaugeFontSize(radius, arcSize, 48);
+				return (deltaYPosition + valueYPosition) + "px";
+			},
+			deltaYPosition: (radius, arcSize) => {
+				const deltaYPosition = ((arcSize - 2 * Math.PI) / Math.PI) * getGaugeFontSize(radius, arcSize, 24);
+				const valueYPosition = ((arcSize - 2 * Math.PI) / Math.PI) * getGaugeFontSize(radius, arcSize, 48);
+				const deltaFontSize = getGaugeFontSize(radius, arcSize, 24)
+				return (deltaYPosition + valueYPosition + deltaFontSize * 1.5) + "px";
+			},
+			numberFormatter: number => number.toFixed(2).toLocaleString() + "%"
+		}
 	}
 } as GaugeChartOptions);
 
@@ -281,9 +296,9 @@ const gaugeChart: GaugeChartOptions = Tools.merge({}, pieChart, {
 const donutChart: DonutChartOptions = Tools.merge({}, pieChart, {
 	donut: {
 		center: {
-			numberFontSize: radius => Math.min((radius / 100) * 24, 24) + "px",
-			titleFontSize: radius => Math.min((radius / 100) * 15, 15) + "px",
-			titleYPosition: radius => Math.min((radius / 80) * 20, 20),
+			numberFontSize: radius => Tools.interpolateAndClamp((radius / 100), 24) + "px",
+			titleFontSize: radius => Tools.interpolateAndClamp((radius / 100), 15) + "px",
+			titleYPosition: radius => Tools.interpolateAndClamp((radius / 80), 20),
 			numberFormatter: number => Math.floor(number).toLocaleString()
 		}
 	}
