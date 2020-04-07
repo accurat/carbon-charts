@@ -29,10 +29,11 @@ export class StackedBar extends Bar {
 
 	render(animate: boolean) {
 		// Grab container SVG
+		const { groups } = this.configs;
 		const svg = this.getContainerSVG();
 
 		// Chart options mixed with the internal configurations
-		const displayData = this.model.getDisplayData();
+		const displayData = this.model.getDisplayData(groups);
 		const options = this.model.getOptions();
 		const { groupIdentifier } = options.data;
 
@@ -40,7 +41,7 @@ export class StackedBar extends Bar {
 
 		// Create the data and keys that'll be used by the stack layout
 		const stackKeys = map(displayData, datum => datum[domainIdentifier]).keys();
-		const stackData = this.model.getStackedData();
+		const stackData = this.model.getStackedData(groups);
 
 		// Update data on all bar groups
 		const barGroups = svg.selectAll("g.bars")
@@ -154,9 +155,9 @@ export class StackedBar extends Bar {
 
 				const rangeIdentifier = self.services.cartesianScales.getRangeIdentifier();
 				const { groupIdentifier } = self.model.getOptions().data;
-		
+
 				// Show tooltip
-				self.services.events.dispatchEvent("show-tooltip", {
+				self.services.events.dispatchEvent("show-tooltip-bar", {
 					hoveredElement,
 					data: {
 						[rangeIdentifier]: itemData,

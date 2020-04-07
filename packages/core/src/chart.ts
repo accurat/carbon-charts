@@ -63,8 +63,6 @@ export class Chart {
 				this.update(false);
 			});
 
-		this.updateServices();
-
 		this.components = this.getComponents();
 
 		this.update();

@@ -40,10 +40,10 @@ export class ChartModel {
 
 	/**
 	 * Converts data provided in the older format to tabular
-	 * 
+	 *
 	 */
 	protected transformToTabularData(data) {
-		console.warn("We've updated the charting data format to be tabular by default. The current format you're using is deprecated and will be removed in v1.0, read more here")
+		console.warn("We've updated the charting data format to be tabular by default. The current format you're using is deprecated and will be removed in v1.0, read more here");
 		const tabularData = [];
 		const { datasets, labels } = data;
 
@@ -81,7 +81,12 @@ export class ChartModel {
 		return data;
 	}
 
-	getDisplayData() {
+	filterDataset = (groups, dataset) => {
+		return dataset.filter(d => groups.includes(d.group));
+	}
+
+
+	getDisplayData(groups?: string[]) {
 		if (!this.getData()) {
 			return null;
 		}
@@ -90,14 +95,19 @@ export class ChartModel {
 		const dataGroups = this.getDataGroups();
 
 		// Remove datasets that have been disabled
-		const displayData = Tools.clone(this.getData());
+		const displayData = groups
+			? this.filterDataset(groups, Tools.clone(this.getData()))
+			: Tools.clone(this.getData());
+
 		const { groupIdentifier } = this.getOptions().data;
+
 
 		return displayData.filter(datum => {
 			const group = dataGroups.find(group => group.name === datum[groupIdentifier]);
 
 			return group.status === ACTIVE;
 		});
+
 	}
 
 	getData() {
@@ -159,8 +169,8 @@ export class ChartModel {
 		return this.get("dataGroups").map(dataGroup => dataGroup.name);
 	}
 
-	getGroupedData() {
-		const displayData = this.getDisplayData();
+	getGroupedData(groups?: string[]) {
+		const displayData = this.getDisplayData(groups);
 		const groupedData = {};
 		const { groupIdentifier } = this.getOptions().data;
 
@@ -207,11 +217,13 @@ export class ChartModel {
 		}) as any;
 	}
 
-	getStackedData() {
+	getStackedData(groups?: string[]) {
 		const options = this.getOptions();
 		const { groupIdentifier } = options.data;
 
-		const dataGroupNames = this.getDataGroupNames();
+		const dataGroupNames = groups
+			? this.getDataGroupNames().filter(name => groups.includes(name))
+			: this.getDataGroupNames();
 		const dataValuesGroupedByKeys = this.getDataValuesGroupedByKeys();
 
 		return stack().keys(dataGroupNames)(dataValuesGroupedByKeys)

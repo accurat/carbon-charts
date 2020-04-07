@@ -21,7 +21,7 @@ export class TooltipBar extends Tooltip {
 		this.tooltip.style("max-width", null);
 
 		// listen to show-tooltip Custom Events to render the tooltip
-		this.services.events.addEventListener("show-tooltip", e => {
+		this.services.events.addEventListener("show-tooltip-bar", e => {
 			// check the type of tooltip and that it is enabled
 			if ((e.detail.type === TooltipTypes.DATAPOINT && Tools.getProperty(this.model.getOptions(), "tooltip", "datapoint", "enabled"))
 				|| (e.detail.type === TooltipTypes.GRIDLINE && Tools.getProperty(this.model.getOptions(), "tooltip", "gridline", "enabled")) ) {

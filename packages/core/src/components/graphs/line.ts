@@ -37,7 +37,7 @@ export class Line extends Component {
 				return true;
 			});
 
-		const groupedData = this.model.getGroupedData();
+		const groupedData = this.model.getGroupedData(this.configs.groups);
 		// Update the bound data on line groups
 		const lineGroups = svg.selectAll("g.lines")
 			.data(groupedData, group => group.name);
@@ -62,7 +62,7 @@ export class Line extends Component {
 		// Apply styles and datum
 		enteringPaths.merge(svg.selectAll("g.lines path"))
 			.attr("stroke", (group, i) => {
-				return this.model.getStrokeColor(group.name)
+				return this.model.getStrokeColor(group.name);
 			})
 			// a11y
 			.attr("role", Roles.GRAPHICS_SYMBOL)

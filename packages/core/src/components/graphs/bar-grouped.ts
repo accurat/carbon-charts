@@ -30,14 +30,16 @@ export class GroupedBar extends Bar {
 	}
 
 	protected getAllDataLabels() {
-		const displayData = this.model.getDisplayData();
+		const { groups } = this.configs;
+		const displayData = this.model.getDisplayData(groups);
 		const domainIdentifier = this.services.cartesianScales.getDomainIdentifier();
 
 		return map(displayData, datum => datum[domainIdentifier]).keys();
 	}
 
 	protected getDataCorrespondingToLabel(label: string) {
-		const displayData = this.model.getDisplayData();
+		const { groups } = this.configs;
+		const displayData = this.model.getDisplayData(groups);
 		const domainIdentifier = this.services.cartesianScales.getDomainIdentifier();
 
 		return displayData.filter(datum => datum[domainIdentifier] === label);
@@ -66,8 +68,9 @@ export class GroupedBar extends Bar {
 	}
 
 	render(animate: boolean) {
+		const { groups } = this.configs;
 		// Chart options mixed with the internal configurations
-		const displayData = this.model.getDisplayData();
+		const displayData = this.model.getDisplayData(groups);
 
 		const options = this.model.getOptions();
 		const { groupIdentifier } = options.data;
@@ -191,7 +194,7 @@ export class GroupedBar extends Bar {
 				});
 
 				// Show tooltip
-				self.services.events.dispatchEvent("show-tooltip", {
+				self.services.events.dispatchEvent("show-tooltip-bar", {
 					hoveredElement,
 					type: TooltipTypes.DATAPOINT
 				});

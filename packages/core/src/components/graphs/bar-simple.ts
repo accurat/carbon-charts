@@ -26,6 +26,7 @@ export class SimpleBar extends Bar {
 
 	render(animate: boolean) {
 		const options = this.model.getOptions();
+		const { groups } = this.configs;
 		const { groupIdentifier } = options.data;
 
 		// Grab container SVG
@@ -33,7 +34,7 @@ export class SimpleBar extends Bar {
 
 		// Update data on all bars
 		const bars = svg.selectAll("path.bar")
-			.data(this.model.getDisplayData(), datum => datum[groupIdentifier]);
+			.data(this.model.getDisplayData(groups), datum => datum[groupIdentifier]);
 
 		// Remove bars that are no longer needed
 		bars.exit()
@@ -111,7 +112,7 @@ export class SimpleBar extends Bar {
 					datum
 				});
 
-				self.services.events.dispatchEvent("show-tooltip", {
+				self.services.events.dispatchEvent("show-tooltip-bar", {
 					hoveredElement,
 					type: TooltipTypes.DATAPOINT
 				});

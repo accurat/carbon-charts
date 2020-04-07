@@ -27,7 +27,6 @@ import {
 	LayoutComponent,
 	TooltipScatter
 } from "../components/index";
-import { stack } from "d3";
 
 const graphComponentsMap = {
 	"line": [Line, Scatter],
@@ -43,30 +42,13 @@ const graphTooltipsMap = {
 	"stackedBar": TooltipBar
 };
 
-export class ComboModel extends ChartModel {
-	filter: Function;
-
-	constructor(services: any) {
-		super(services);
-		this.filter = (x) => x;
-	}
-
-	setDataFilter(filter) {
-		this.filter = filter;
-	}
-
-	getData() {
-		return this.filter(this.get("data"));
-	}
-}
-
 export class ComboChart extends AxisChart {
-	model = new ComboModel(this.services);
-	models: any = {};
+	model = new ChartModel(this.services);
+	chartConfigs: any;
 
 	constructor(holder: Element, chartConfigs: ChartConfig<ComboChartOptions>) {
 		super(holder, chartConfigs);
-
+		this.chartConfigs = chartConfigs;
 		// Merge multiple default options
 		const {chartTypes} = chartConfigs.options;
 		const graphs = Object.keys(chartTypes);
@@ -85,31 +67,10 @@ export class ComboChart extends AxisChart {
 		this.init(holder, chartConfigs);
 	}
 
-	update(animate = true) {
-		if (!this.components) { return; }
-		// Re-create graphs components
-		this.components = [...this.components.slice(0, 1), ...this.updateComponents()];
-		super.update(animate);
-	}
-
-	setGraphsModels() {
-		// Init graphs models
-		const {chartTypes} = this.model.getOptions();
-		Object.keys(chartTypes).map(graph => {
-			const model = Tools.clone(this.model);
-			model.setDataFilter(this.filterDataset(graph));
-			this.models[graph] = model;
-		});
-	}
-
-	filterDataset = (chart) => (dataset) => {
-		const {chartTypes} = this.model.getOptions();
-		const chartGroups = chartTypes[chart];
-		return dataset.filter(d => chartGroups.includes(d.group));
-	}
-
 	getGraphComponents(graph: string) {
-		return graphComponentsMap[graph].map(component => new component(this.models[graph], this.services));
+		const {chartTypes} = this.model.getOptions();
+		return graphComponentsMap[graph]
+			.map(Component => new Component(this.model, this.services, {groups: chartTypes[graph]}));
 	}
 
 	getGraphsComponents() {
@@ -120,18 +81,12 @@ export class ComboChart extends AxisChart {
 
 	getGraphsTooltips() {
 		const {chartTypes} = this.model.getOptions();
-		const graphsTooltips = Object.keys(chartTypes).map(graph => new graphTooltipsMap[graph](this.models[graph], this.services));
+		const graphsTooltips = Object.keys(chartTypes)
+			.map(graph => new graphTooltipsMap[graph](this.model, this.services));
 		return Tools.removeArrayDuplicates(graphsTooltips);
 	}
 
-	updateComponents() {
-		this.setGraphsModels();
-		return this.getGraphsComponents();
-	}
-
 	getComponents() {
-		this.setGraphsModels();
-
 		// Specify what to render inside the graph-frame
 		const graphFrameComponents = [
 			new TwoDimensionalAxes(this.model, this.services),

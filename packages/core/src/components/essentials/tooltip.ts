@@ -128,7 +128,9 @@ export class Tooltip extends Component {
 				const rangeIdentifier = this.services.cartesianScales.getRangeIdentifier();
 
 				const userProvidedValueFormatter = Tools.getProperty(this.model.getOptions(), "tooltip", "valueFormatter");
-				const formattedValue = userProvidedValueFormatter ? userProvidedValueFormatter(datum[rangeIdentifier]) : datum[rangeIdentifier].toLocaleString("en");
+				const formattedValue = userProvidedValueFormatter
+					? userProvidedValueFormatter(datum[rangeIdentifier])
+					: datum[rangeIdentifier].toLocaleString("en");
 
 				// For the tooltip color, we always want the normal stroke color, not dynamically determined by data value.
 				const indicatorColor = this.model.getStrokeColor(datum[groupIdentifier]);
