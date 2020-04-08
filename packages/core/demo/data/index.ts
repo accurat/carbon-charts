@@ -65,8 +65,8 @@ export const chartTypes = {
 	},
 	GaugeChart: {
 		vanilla: "GaugeChart",
-		angular: "ibm-donut-chart",
-		vue: "ccv-donut-chart"
+		angular: "ibm-gauge-chart",
+		vue: "ccv-gauge-chart"
 	},
 	DonutChart: {
 		vanilla: "DonutChart",
