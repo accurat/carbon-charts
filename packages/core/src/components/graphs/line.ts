@@ -7,6 +7,30 @@ import { Roles, Events } from "../../interfaces";
 import { select } from "d3-selection";
 import { line } from "d3-shape";
 
+import { cloneDeep } from "lodash-es";
+
+function generateStack(data: { name: string; data: any; }[]) {
+	function recursiveSum(d, i) {
+		let index = i;
+		const result = cloneDeep(d);
+
+		while (data[index - 1]) {
+			result.forEach((datum, datumIndex) => {
+				datum.value += data[index - 1].data[datumIndex].value;
+			});
+			index--;
+		}
+		return result;
+	}
+
+	return data.map((d, i) =>
+		({
+			...d,
+			data: recursiveSum(d.data, i)
+		})
+	);
+}
+
 export class Line extends Component {
 	type = "line";
 
@@ -36,7 +60,13 @@ export class Line extends Component {
 				return true;
 			});
 
-		const groupedData = this.model.getGroupedData();
+		let groupedData = this.model.getGroupedData();
+		console.log(groupedData)
+
+		if (this.configs.stacked) {
+			groupedData = generateStack(groupedData);
+		}
+
 		// Update the bound data on line groups
 		const lineGroups = svg.selectAll("g.lines")
 			.data(groupedData, group => group.name);
@@ -60,6 +90,7 @@ export class Line extends Component {
 
 		// Apply styles and datum
 		enteringPaths.merge(svg.selectAll("g.lines path"))
+			.data(groupedData, group => group.name)
 			.attr("stroke", (group, i) => {
 				return this.model.getStrokeColor(group.name)
 			})

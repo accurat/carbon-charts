@@ -160,7 +160,6 @@ export class StackedArea extends Component {
 		}
 
 		const stackedData = this.model.getStackedData();
-		console.log(stackedData);
 
 		const areaGroups = svg
 			.selectAll("g.areas")
