@@ -9,6 +9,7 @@ import {
 	PieChartOptions,
 	DonutChartOptions,
 	BubbleChartOptions,
+	DecisionTreeChartOptions,
 	// Components
 	GridOptions,
 	AxesOptions,
@@ -274,6 +275,16 @@ const donutChart: DonutChartOptions = Tools.merge({}, pieChart, {
 	}
 } as DonutChartOptions);
 
+/**
+ * options specific to decision tree charts
+ */
+const decisionTreeChart: DecisionTreeChartOptions = Tools.merge({}, chart, {
+	decisionTree: {
+		opt1: true,
+		opt2: 2
+	}
+} as DecisionTreeChartOptions);
+
 export const options = {
 	chart,
 	axisChart,
@@ -284,7 +295,8 @@ export const options = {
 	lineChart,
 	scatterChart,
 	pieChart,
-	donutChart
+	donutChart,
+	decisionTreeChart
 };
 
 /**

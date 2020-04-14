@@ -188,3 +188,13 @@ export interface DonutChartOptions extends PieChartOptions {
 		};
 	};
 }
+
+/**
+ * options specific to decision tree charts
+ */
+export interface DecisionTreeChartOptions extends BaseChartOptions {
+	decisionTree?: {
+		opt1?: boolean;
+		opt2?: number;
+	};
+}
