@@ -2,11 +2,13 @@
 import { Component } from "../component";
 import * as Configuration from "../../configuration";
 import { Roles, ScaleTypes, Events, TooltipTypes } from "../../interfaces";
+import { Tools } from "../../tools";
 
 // D3 Imports
 import { area, stack } from "d3-shape";
-import { Tools } from "../../tools";
-import { select, color } from "d3";
+import { select, color, sum } from "d3";
+
+import { fromPairs, groupBy, find, map } from "lodash-es";
 
 export class StackedArea extends Component {
 	type = "area-stacked";
@@ -46,36 +48,50 @@ export class StackedArea extends Component {
 		});
 	}
 
-	// getStackedData() {
-	// 	const datasets = this.model.getGroupedData();
-	// 	const keys: string[] = this.model.getDataGroupNames();
+	getStackedData() {
+		const options = this.model.getOptions();
+		const datasets = this.model.getDisplayData().datasets;
+		const keys: string[] = datasets.map(d => d.label);
 
-	// 	const flattenedData: [] = datasets.flatMap(d =>
-	// 		d.data.map(datum => ({
-	// 			[d.label]: datum.value,
-	// 			xValue: datum.date
-	// 		}))
-	// 	);
+		const flattenedData: [] = datasets.flatMap(d =>
+			d.data.map(datum => ({
+				...datum,
+				label: d.label
+			}))
+		);
 
-	// 	const preStackData: { [key: string]: number }[] = flattenedData.reduce(
-	// 		(acc, cur: any) => {
-	// 			const index = acc.findIndex(o =>
-	// 				Tools.compareNumeric(o.xValue, cur.xValue)
-	// 			);
+		if (options.percentage) {
+			const maxByDate = fromPairs(flattenedData.map((d: any) => [d.date, 0]));
 
-	// 			if (index > -1) {
-	// 				acc[index] = { ...acc[index], ...cur };
-	// 			} else {
-	// 				acc.push({ ...cur });
-	// 			}
+			flattenedData.forEach((d: any) => {
+				maxByDate[d.date] += d.value;
+			});
 
-	// 			return acc;
-	// 		},
-	// 		[]
-	// 	);
+			// cycle though data values to transform into percentages
+			flattenedData.forEach((d: any) => {
+				d.value =  d.value / maxByDate[d.date] * 100;
+			});
+		}
 
-	// 	return stack().groups(keys)(preStackData);
-	// }
+		const preStackData: { [key: string]: number }[] = flattenedData.reduce(
+			(acc, cur: any) => {
+				const index = acc.findIndex(o =>
+					Tools.compareNumeric(o.date, cur.date)
+				);
+
+				if (index > -1) {
+					acc[index] = { ...acc[index], [cur.label]: cur.value };
+				} else {
+					acc.push({ date: cur.date, [cur.label]: cur.value });
+				}
+
+				return acc;
+			},
+			[]
+		);
+
+		return stack().keys(keys)(preStackData);
+	}
 
 	addEventListeners() {
 		const self = this;
@@ -169,8 +185,10 @@ export class StackedArea extends Component {
 		// D3 area generator function
 		this.areaGenerator = area()
 			// @ts-ignore
-			.x(d => mainXScale(new Date(d.data.sharedStackKey)))
-			.y0(d => mainYScale(d[0]))
+			.x(d => mainXScale(d.data.date))
+			.y0(d => {
+				return mainYScale(d[0]);
+			})
 			.y1(d => mainYScale(d[1]))
 			.curve(this.services.curves.getD3Curve());
 
